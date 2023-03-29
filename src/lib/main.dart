@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:geolocator/geolocator.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,6 +19,37 @@ Map<int, Color> color = {
   800: Color.fromRGBO(136, 14, 79, .9),
   900: Color.fromRGBO(136, 14, 79, 1),
 };
+
+LatLng location =
+    LatLng(51.229838, 4.4171506); //Default naar ellermanstraat campus.
+
+Future<void> checkLocationEnabled() async {
+  bool servicestatus = await Geolocator.isLocationServiceEnabled();
+  if (servicestatus) {
+    print("GPS service is enabled");
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        print('Location permissions are denied');
+      } else if (permission == LocationPermission.deniedForever) {
+        print("Location permissions are permanently denied");
+      } else {
+        getCurrentLocation();
+      }
+    } else {
+      print("GPS Location permission granted.");
+    }
+  } else {
+    print("GPS service is disabled.");
+  }
+}
+
+Future<void> getCurrentLocation() async {
+  Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high);
+  location = LatLng(position.latitude, position.longitude);
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -76,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(15),
                   bottomRight: Radius.circular(15))),
@@ -84,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Center(
           child: FlutterMap(
             options: MapOptions(
-              center: LatLng(51.229838, 4.4171506),
+              center: location,
               zoom:
                   17.0, //Beste zoom niveau om een idee te krijgen van de buurt.
               maxZoom: 22.0,
