@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 void main() {
   runApp(const MyApp());
@@ -75,12 +76,18 @@ class _MyHomePageState extends State<MyHomePage> {
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(15),
+                  bottomRight: Radius.circular(15))),
         ),
         body: Center(
           child: FlutterMap(
             options: MapOptions(
-              zoom: 13.0,
-              maxZoom: 19.0,
+              center: LatLng(51.229838, 4.4171506),
+              zoom:
+                  17.0, //Beste zoom niveau om een idee te krijgen van de buurt.
+              maxZoom: 22.0,
               enableScrollWheel: true,
               scrollWheelVelocity: 0.005,
             ),
