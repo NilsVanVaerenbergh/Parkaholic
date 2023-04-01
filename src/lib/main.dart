@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
+import 'dart:async';
 
 void main() {
   runApp(const MyApp());
@@ -20,8 +21,7 @@ Map<int, Color> color = {
   900: Color.fromRGBO(136, 14, 79, 1),
 };
 
-LatLng location =
-    LatLng(51.229838, 4.4171506); //Default naar ellermanstraat campus.
+LatLng location = LatLng(51.229838, 4.4171506); //Default naar ellermanstraat campus.
 
 Future<void> checkLocationEnabled() async {
   bool servicestatus = await Geolocator.isLocationServiceEnabled();
@@ -39,6 +39,7 @@ Future<void> checkLocationEnabled() async {
       }
     } else {
       print("GPS Location permission granted.");
+      getCurrentLocation();
     }
   } else {
     print("GPS service is disabled.");
@@ -95,6 +96,29 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  MapController mapController = MapController();
+  Timer? timer;
+
+  @override
+  void initState() {
+    super.initState();
+    checkLocationEnabled();
+
+    //zal center van map elke seconde naar currentlocation brengen.
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        checkLocationEnabled();
+        mapController.move(location, 17.0);
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -115,6 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: Center(
           child: FlutterMap(
+            mapController: mapController,
             options: MapOptions(
               center: location,
               zoom:
