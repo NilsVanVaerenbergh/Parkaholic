@@ -21,7 +21,10 @@ Map<int, Color> color = {
   900: Color.fromRGBO(136, 14, 79, 1),
 };
 
-LatLng location = LatLng(51.229838, 4.4171506); //Default naar ellermanstraat campus.
+LatLng location =
+    LatLng(51.229838, 4.4171506); //Default naar ellermanstraat campus.
+
+bool locationPermission = false;
 
 Future<void> checkLocationEnabled() async {
   bool servicestatus = await Geolocator.isLocationServiceEnabled();
@@ -32,17 +35,22 @@ Future<void> checkLocationEnabled() async {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         print('Location permissions are denied');
+        locationPermission = false;
       } else if (permission == LocationPermission.deniedForever) {
         print("Location permissions are permanently denied");
+        locationPermission = false;
       } else {
         getCurrentLocation();
+        locationPermission = true;
       }
     } else {
       print("GPS Location permission granted.");
       getCurrentLocation();
+      locationPermission = true;
     }
   } else {
     print("GPS service is disabled.");
+    locationPermission = false;
   }
 }
 
@@ -98,6 +106,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   MapController mapController = MapController();
   Timer? timer;
+  bool updateMapCenter = true;
 
   @override
   void initState() {
@@ -107,8 +116,10 @@ class _MyHomePageState extends State<MyHomePage> {
     //zal center van map elke seconde naar currentlocation brengen.
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
-        checkLocationEnabled();
-        mapController.move(location, 17.0);
+        if (updateMapCenter && locationPermission) {
+          getCurrentLocation();
+          mapController.move(location, 17.0);
+        }
       });
     });
   }
@@ -121,40 +132,61 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-        appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: Text(widget.title),
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  bottomRight: Radius.circular(15))),
+      appBar: AppBar(
+        title: Text(widget.title),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(15),
+            bottomRight: Radius.circular(15),
+          ),
         ),
-        body: Center(
-          child: FlutterMap(
+      ),
+      body: Stack(
+        children: [
+          FlutterMap(
             mapController: mapController,
             options: MapOptions(
-              center: location,
-              zoom:
-                  17.0, //Beste zoom niveau om een idee te krijgen van de buurt.
-              maxZoom: 22.0,
-              enableScrollWheel: true,
-              scrollWheelVelocity: 0.005,
-            ),
+                center: location,
+                zoom: 17.0,
+                maxZoom: 22.0,
+                enableScrollWheel: true,
+                scrollWheelVelocity: 0.005,
+                onPositionChanged: ((position, hasGesture) =>
+                    updateMapCenter = false)),
             children: [
               TileLayer(
-                urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+                urlTemplate:
+                    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                subdomains: ['a', 'b', 'c'],
+              ),
+              MarkerLayer(
+                markers: [
+                  Marker(
+                    width: 80.0,
+                    height: 80.0,
+                    point: location,
+                    builder: (ctx) => const Icon(
+                      Icons.person,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
               ),
             ],
-          ), // This trailing comma makes auto-formatting nicer for build methods.
-        ));
+          ),
+          Positioned(
+            bottom: 20.0,
+            right: 20.0,
+            child: FloatingActionButton(
+              onPressed: () {
+                updateMapCenter = true;
+              },
+              child: Icon(Icons.adjust),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
