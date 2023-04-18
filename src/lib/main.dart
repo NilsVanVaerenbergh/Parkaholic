@@ -60,6 +60,32 @@ Future<void> getCurrentLocation() async {
   location = LatLng(position.latitude, position.longitude);
 }
 
+void pullUpMenu(context) {
+  showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return Container(
+            height: MediaQuery.of(context).size.height * .30,
+            child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text("Klik om uw parkeerplaats vrij te geven"),
+                        IconButton(
+                          icon: Icon(Icons.cancel),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        )
+                      ],
+                    )
+                  ],
+                )));
+      });
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -185,6 +211,15 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Icon(Icons.adjust),
             ),
           ),
+          Positioned(
+              bottom: 230.0,
+              right: 100.0,
+              child: FloatingActionButton(
+                onPressed: () {
+                  pullUpMenu(context);
+                },
+                child: Icon(Icons.local_parking),
+              ))
         ],
       ),
     );
