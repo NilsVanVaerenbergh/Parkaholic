@@ -108,7 +108,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              AppIcons().park(context),
               AppIcons().centerPosition(positionHandler)
             ],
           ),
