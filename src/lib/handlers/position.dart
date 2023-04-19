@@ -9,7 +9,7 @@ class PositionHandler {
 
   Future<void> getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+        desiredAccuracy: LocationAccuracy.bestForNavigation);
     location = LatLng(position.latitude, position.longitude);
   }
 

@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../components/icons.dart';
 import '../components/markers.dart';
@@ -53,42 +55,63 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(15),
-            bottomRight: Radius.circular(15),
+        appBar: AppBar(
+          title: Text(widget.title),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(15),
+              bottomRight: Radius.circular(15),
+            ),
           ),
         ),
-      ),
-      body: Stack(
-        children: [
-          FlutterMap(
-            mapController: mapController,
-            options: MapOptions(
-                center: positionHandler.location,
-                zoom: 17.0,
-                maxZoom: 22.0,
-                enableScrollWheel: true,
-                scrollWheelVelocity: 0.005,
-                onPositionChanged: ((position, hasGesture) =>
-                    positionHandler.updateMapCenter = false)),
+        body: SlidingUpPanel(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
+          ),
+          panel: const Center(
+            child: Text("This is the sliding Widget"),
+          ),
+          collapsed: Container(
+            padding: const EdgeInsets.all(45.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      width: 1,
+                      color: const Color.fromARGB(255, 170, 170, 170)),
+                  borderRadius: const BorderRadius.all(Radius.circular(15))),
+              height: 10.0,
+              width: 50.0,
+              child: Container(color: const Color.fromARGB(255, 170, 170, 170)),
+            ),
+          ),
+          body: Stack(
             children: [
-              TileLayer(
-                urlTemplate:
-                    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                subdomains: const ['a', 'b', 'c'],
+              FlutterMap(
+                mapController: mapController,
+                options: MapOptions(
+                    center: positionHandler.location,
+                    zoom: 17.0,
+                    maxZoom: 17.0,
+                    enableScrollWheel: true,
+                    scrollWheelVelocity: 0.005,
+                    onPositionChanged: ((position, hasGesture) =>
+                        positionHandler.updateMapCenter = false)),
+                children: [
+                  TileLayer(
+                    urlTemplate:
+                        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    subdomains: const ['a', 'b', 'c'],
+                  ),
+                  MarkerLayer(
+                    markers: [Markers().currentUserLocation(positionHandler)],
+                  ),
+                ],
               ),
-              MarkerLayer(
-                markers: [Markers().currentUserLocation(positionHandler)],
-              ),
+              AppIcons().park(context),
+              AppIcons().centerPosition(positionHandler)
             ],
           ),
-          AppIcons().park(context),
-          AppIcons().centerPosition(positionHandler)
-        ],
-      ),
-    );
+        ));
   }
 }
