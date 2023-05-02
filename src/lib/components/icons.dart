@@ -14,7 +14,7 @@ class AppIcons {
           child: const Icon(Icons.local_parking),
         ));
   }
-
+  
   Positioned centerPosition(PositionHandler pos) {
     return Positioned(
       bottom: 20.0,
