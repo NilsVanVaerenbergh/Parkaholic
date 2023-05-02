@@ -1,17 +1,21 @@
 import 'dart:async';
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+
 import '../components/icons.dart';
 import '../components/markers.dart';
 import '../handlers/position.dart';
+
 import 'package:src/ParkingSpot.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -55,6 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
     timer?.cancel();
     super.dispose();
   }
+
 
   //geeft stream met list van alle parkingSpots
   Stream<List<ParkingSpot>> readParkingSpots() => FirebaseFirestore.instance
@@ -140,4 +145,5 @@ class _MyHomePageState extends State<MyHomePage> {
         //     final parkingSpots = snapshot.data!;
         //     final parkingSpotMarkers =
         //         Markers().parkingSpotMarkers(parkingSpots);
+
 
