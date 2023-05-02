@@ -60,7 +60,6 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-
   //geeft stream met list van alle parkingSpots
   Stream<List<ParkingSpot>> readParkingSpots() => FirebaseFirestore.instance
       .collection('ParkingSpots')
@@ -113,8 +112,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     center: positionHandler.location,
                     zoom: 17.0,
                     maxZoom: 17.0,
-                    enableScrollWheel: false,
-                    interactiveFlags: InteractiveFlag.none,
+                    // enableScrollWheel: false,
+                    // interactiveFlags: InteractiveFlag.none,
                     scrollWheelVelocity: 0.005,
                     onPositionChanged: ((position, hasGesture) =>
                         positionHandler.updateMapCenter = false)),
@@ -124,6 +123,22 @@ class _MyHomePageState extends State<MyHomePage> {
                         'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                     subdomains: const ['a', 'b', 'c'],
                   ),
+                  StreamBuilder<List<ParkingSpot>>(
+                stream: readParkingSpots(),
+                builder: (context, snapshot) {
+                  if(snapshot.hasData){
+                    final parkingSpots = snapshot.data!;
+                    final markerList = Markers().parkingSpotMarkers(parkingSpots);
+                    return MarkerLayer(
+                      markers: markerList
+                    );
+                  }
+                  else{
+                    return MarkerLayer(
+                    );
+                  }
+                },
+              ),
                   MarkerLayer(
                     markers: [Markers().currentUserLocation(positionHandler)],
                   ),
@@ -135,15 +150,5 @@ class _MyHomePageState extends State<MyHomePage> {
         ));
   }
 }
-  // body: StreamBuilder<List<ParkingSpot>>(
-        //   stream: readParkingSpots(),
-        //   builder: (context, snapshot) {
-        //     if (!snapshot.hasData) {
-        //       return Center(child: CircularProgressIndicator());
-        //     }
-
-        //     final parkingSpots = snapshot.data!;
-        //     final parkingSpotMarkers =
-        //         Markers().parkingSpotMarkers(parkingSpots);
 
 

@@ -4,35 +4,34 @@
 
 import 'dart:convert';
 
-ParkingSpot parkingSpotFromJson(String str) =>
-    ParkingSpot.fromJson(json.decode(str));
+ParkingSpot parkingSpotFromJson(String str) => ParkingSpot.fromJson(json.decode(str));
 
 String parkingSpotToJson(ParkingSpot data) => json.encode(data.toJson());
 
 class ParkingSpot {
-  ParkingSpot({
-    required this.id,
-    required this.inUse,
-    required this.location,
-    required this.size,
-  });
+    bool inUse;
+    double lat;
+    double lng;
+    int size;
 
-  String id;
-  bool inUse;
-  List<double> location;
-  int size;
+    ParkingSpot({
+        required this.inUse,
+        required this.lat,
+        required this.lng,
+        required this.size,
+    });
 
-  factory ParkingSpot.fromJson(Map<String, dynamic> json) => ParkingSpot(
-        id: json["id"],
-        inUse: json["inUse"],
-        location: List<double>.from(json["location"].map((x) => x?.toDouble())),
+    factory ParkingSpot.fromJson(Map<String, dynamic> json) => ParkingSpot(
+        inUse: json["InUse"],
+        lat: json["Lat"]?.toDouble(),
+        lng: json["Lng"]?.toDouble(),
         size: json["Size"],
-      );
+    );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "inUse": inUse,
-        "location": List<dynamic>.from(location.map((x) => x)),
+    Map<String, dynamic> toJson() => {
+        "InUse": inUse,
+        "Lat": lat,
+        "Lng": lng,
         "Size": size,
-      };
+    };
 }
