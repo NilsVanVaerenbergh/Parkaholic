@@ -41,6 +41,8 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   firebase_core: ^2.10.0
   cloud_firestore: any
+  crypt: ^4.2.1
+  uuid: ^3.0.7
 dev_dependencies:
   flutter_test:
     sdk: flutter
