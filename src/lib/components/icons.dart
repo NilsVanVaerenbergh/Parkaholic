@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/handlers/position.dart';
-import 'pull_up_menu.dart';
+import 'slide_up_menu.dart';
 
 class AppIcons {
   Positioned park(BuildContext inContext) {
@@ -9,7 +9,7 @@ class AppIcons {
         right: 20.0,
         child: FloatingActionButton(
           onPressed: () {
-            pullUpMenu(inContext);
+            // pullUpMenu(inContext);
           },
           child: const Icon(Icons.local_parking),
         ));
