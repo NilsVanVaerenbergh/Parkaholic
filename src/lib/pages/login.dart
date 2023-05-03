@@ -28,8 +28,11 @@ class _Login extends State<Login> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(
-              150, 100.0, 150, 100.0), // <-- Add some padding
+          padding: EdgeInsets.fromLTRB(
+              MediaQuery.of(context).size.width * 0.2,
+              100.0,
+              MediaQuery.of(context).size.width * 0.2,
+              100.0), // <-- Add some padding
           child: Column(
             children: [
               const SizedBox(

@@ -6,45 +6,50 @@ class slide_up_menu extends StatelessWidget {
     super.key,
     required this.controller,
     required this.panelController,
-    });
-  
+  });
+
   final ScrollController controller;
   final PanelController panelController;
 
   @override
   Widget build(BuildContext context) => ListView(
-    padding: EdgeInsets.zero,
-    children: <Widget>[
-      SizedBox(height: 12,),
-      buildDragHandle(),
-      SizedBox(height: 36,),
-      Center(child: Text("This is the sliding Widget")),
-      SizedBox(height: 24,)
-    ],
-  );
-  
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          SizedBox(
+            height: 12,
+          ),
+          buildDragHandle(),
+          SizedBox(
+            height: 36,
+          ),
+          Center(child: Text("This is the sliding Widget")),
+          SizedBox(
+            height: 24,
+          )
+        ],
+      );
+
   Widget buildDragHandle() => GestureDetector(
-    onTap: togglePanel,
-    child: Center(
-      child: Container(
-        width: 30,
-        height: 5,
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(12),
+        onTap: togglePanel,
+        child: Center(
+          child: Container(
+            width: 200,
+            height: 5,
+            decoration: BoxDecoration(
+              color: Colors.grey,
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
         ),
-        ),
-    ),
-  );
+      );
   void togglePanel() {
-    if(panelController.isPanelOpen){
+    if (panelController.isPanelOpen) {
       panelController.close();
-    }
-    else{
+    } else {
       panelController.open();
     }
   }
-  
+
   //   return SlidingUpPanel(
   //         controller: controller,
   //         borderRadius: const BorderRadius.only(
