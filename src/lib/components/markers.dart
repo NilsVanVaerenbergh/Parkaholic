@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:src/handlers/position.dart';
-import 'package:src/components/pull_up_menu.dart';
+import 'package:src/components/slide_up_menu.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:src/ParkingSpot.dart';
 
@@ -24,19 +25,20 @@ class Markers {
     );
   }
 
-  List<Marker> parkingSpotMarkers(List<ParkingSpot> parkingSpots) {
+  List<Marker> parkingSpotMarkers(List<ParkingSpot> parkingSpots, PanelController panelController) {
     return parkingSpots
         .map((parkingSpot) => Marker(
               width: 80.0,
               height: 80.0,
               point: LatLng(parkingSpot.lat, parkingSpot.lng),
               builder: (ctx) => GestureDetector(
-                onTap: () => pullUpMenu(ctx),
+                onTap: () => panelController.open(),
                 child: Icon(
                   Icons.local_parking,
                   size: 60,
                   color: parkingSpot.inUse ? Colors.red : Colors.green,
-              )),
+              )
+              ),
             ))
         .toList();
   }
