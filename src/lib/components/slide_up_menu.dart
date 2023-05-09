@@ -16,7 +16,7 @@ class slide_up_menu extends StatefulWidget {
 }
 
 class _slide_up_menuState extends State<slide_up_menu> {
-
+  
  @override
   Widget build(BuildContext context) => ListView(
         padding: EdgeInsets.zero,
@@ -50,12 +50,6 @@ class _slide_up_menuState extends State<slide_up_menu> {
         ),
       );
   void togglePanel(){
-      if(widget.panelController.isPanelOpen){
-        widget.panelController.close();
-      }
-      else{
-        widget.panelController.open();
-      }
-    
+      widget.panelController.panelPosition.round() == 1 ? widget.panelController.close() : widget.panelController.open();
   }
 }
