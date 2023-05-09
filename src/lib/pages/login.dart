@@ -39,7 +39,7 @@ class _Login extends State<Login> {
                 height: 50,
               ),
               const Text(
-                'Welkom bij Parcaholic!',
+                'Welkom bij Parkaholic!',
                 style: TextStyle(fontSize: 20),
               ),
               const SizedBox(
@@ -78,8 +78,10 @@ class _Login extends State<Login> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const MyHomePage(title: 'Parcaholic')))
+                                    builder: (context) => MyHomePage(
+                                          title: 'Parkaholic',
+                                          userData: userData,
+                                        )))
                           })
                       .catchError((error) => setState(
                           //Error: Invalid argument(s) (onError): The error handler of Future.catchError must return a value of the future's type
