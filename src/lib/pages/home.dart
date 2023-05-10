@@ -69,90 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
           .toList());
 
 
-  PanelController slideMenuController = new PanelController();
+  PanelController slidePanelController = PanelController();
 
-  //Volledige body is SlidingUpPanel?
-  //TODO
-  //Markers van firebase builden adhv streambuilder widget (zal live updates uitvoeren)
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //       appBar: AppBar(
-  //         title: Text(widget.title),
-  //         shape: const RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.only(
-  //             bottomLeft: Radius.circular(15),
-  //             bottomRight: Radius.circular(15),
-  //           ),
-  //         ),
-  //       ),
-  //       body: SlidingUpPanel(
-          
-  //         borderRadius: const BorderRadius.only(
-  //           topLeft: Radius.circular(15),
-  //           topRight: Radius.circular(15),
-  //         ),
-  //         panel: const Center(
-  //           child: Text("This is the sliding Widget"),
-  //         ),
-  //         collapsed: Container(
-  //           padding: const EdgeInsets.all(45.0),
-  //           child: Container(
-  //             decoration: BoxDecoration(
-  //                 border: Border.all(
-  //                     width: 1,
-  //                     color: const Color.fromARGB(255, 170, 170, 170)),
-  //                 borderRadius: const BorderRadius.all(Radius.circular(15))),
-  //             height: 10.0,
-  //             width: 50.0,
-  //             child: Container(color: const Color.fromARGB(255, 170, 170, 170)),
-  //           ),
-  //         ),
-  //         body: Stack(
-  //           children: [
-  //             FlutterMap(
-  //               mapController: mapController,
-  //               options: MapOptions(
-  //                   center: positionHandler.location,
-  //                   zoom: 17.0,
-  //                   maxZoom: 17.0,
-  //                   // enableScrollWheel: false,
-  //                   // interactiveFlags: InteractiveFlag.none,
-  //                   scrollWheelVelocity: 0.005,
-  //                   onPositionChanged: ((position, hasGesture) =>
-  //                       positionHandler.updateMapCenter = false)),
-  //               children: [
-  //                 TileLayer(
-  //                   urlTemplate:
-  //                       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  //                   subdomains: const ['a', 'b', 'c'],
-  //                 ),
-  //                 StreamBuilder<List<ParkingSpot>>(
-  //               stream: readParkingSpots(),
-  //               builder: (context, snapshot) {
-  //                 if(snapshot.hasData){
-  //                   final parkingSpots = snapshot.data!;
-  //                   final markerList = Markers().parkingSpotMarkers(parkingSpots);
-  //                   return MarkerLayer(
-  //                     markers: markerList
-  //                   );
-  //                 }
-  //                 else{
-  //                   return MarkerLayer(
-  //                   );
-  //                 }
-  //               },
-  //             ),
-  //                 MarkerLayer(
-  //                   markers: [Markers().currentUserLocation(positionHandler)],
-  //                 ),
-  //               ],
-  //             ),
-  //             AppIcons().centerPosition(positionHandler)
-  //           ],
-  //         ),
-  //       ));
-  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         body: SlidingUpPanel(
-          controller: slideMenuController,
+          controller: slidePanelController,
           minHeight: 25,
           borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
           body: FlutterMap(
@@ -191,13 +109,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 builder: (context, snapshot) {
                   if(snapshot.hasData){
                     final parkingSpots = snapshot.data!;
-                    final markerList = Markers().parkingSpotMarkers(parkingSpots, slideMenuController);
+                    final markerList = Markers().parkingSpotMarkers(parkingSpots, slidePanelController);
                     return MarkerLayer(
                       markers: markerList
                     );
                   }
                   else{
-                    return MarkerLayer(
+                    return const MarkerLayer(
                     );
                   }
                 },
@@ -211,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
               // AppIcons().centerPosition(positionHandler),
             panelBuilder:(controller) => slide_up_menu(
               controller: controller,
-              panelController: slideMenuController,
+              panelController: slidePanelController,
             )
         ));
   }
