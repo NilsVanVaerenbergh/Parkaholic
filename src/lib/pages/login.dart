@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/components/button.dart';
-import 'package:src/handlers/dataHandler.dart';
+import 'package:src/handlers/data_handler.dart';
 import 'package:src/pages/home.dart';
 import 'package:src/components/textField.dart';
 import 'package:src/pages/register_user.dart';

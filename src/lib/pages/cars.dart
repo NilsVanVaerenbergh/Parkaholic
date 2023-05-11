@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:src/components/button.dart';
 import 'package:src/components/textField.dart';
+import 'package:src/pages/addCar.dart';
 
 class Cars extends StatefulWidget {
   Cars({super.key, required this.userData});
@@ -17,7 +18,7 @@ class _Cars extends State<Cars> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Voeg een auto toe.'),
+        title: Text("Auto's van ${widget.userData['name']}"),
       ),
       body: SafeArea(
         child: Padding(
@@ -42,7 +43,16 @@ class _Cars extends State<Cars> {
               const SizedBox(
                 height: 50,
               ),
-              MyButton(button_text: "Voeg toe.", onTap: () => {})
+              MyButton(
+                  button_text: "Voeg toe.",
+                  onTap: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddCar(
+                                      userData: widget.userData,
+                                    )))
+                      })
             ],
           ),
         ),
