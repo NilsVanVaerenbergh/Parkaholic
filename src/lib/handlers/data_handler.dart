@@ -18,7 +18,7 @@ class DataHandler {
     bool createAccount = await checkIfDocAlreadyExists(
         collectionPath: "Users", key: "name", userName: name);
     if (createAccount) {
-      String generatedId = Uuid().v4();
+      String generatedId = const Uuid().v4();
       DocumentReference docUser =
           FirebaseFirestore.instance.collection("Users").doc(generatedId);
       final user = {

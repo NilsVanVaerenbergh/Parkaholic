@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:src/components/button.dart';
 import 'package:src/components/textField.dart';
-import 'package:src/pages/addCar.dart';
+import 'package:src/pages/add_car.dart';
 
 class Cars extends StatefulWidget {
   Cars({super.key, required this.userData});
