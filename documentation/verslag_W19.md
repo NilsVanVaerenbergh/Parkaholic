@@ -12,3 +12,4 @@ Wel is waar van Login widget naar Home widget om dan uiteindelijk bij Cars widge
 ## Wat nog deze week?
  - We gaan deze week nog de Cars panel afwerken met alle nodige functionaliteit.
  - Slide up menu states aanmaken + eventueel functionaliteit.
+
