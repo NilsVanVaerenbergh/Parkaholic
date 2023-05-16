@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:src/components/slide_up_menu.dart';
 import 'package:src/pages/cars.dart';
@@ -12,7 +13,7 @@ import '../components/icons.dart';
 import '../components/markers.dart';
 import '../handlers/position.dart';
 
-import 'package:src/ParkingSpot.dart';
+import 'package:src/parkingSpot.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -38,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   PositionHandler positionHandler = PositionHandler();
   MapController mapController = MapController();
   Timer? timer;
+  ParkingSpot? _selectedParkingSpot;
 
   @override
   void initState() {
@@ -69,7 +71,14 @@ class _MyHomePageState extends State<MyHomePage> {
       .map((snapshot) => snapshot.docs
           .map((doc) => ParkingSpot.fromJson(doc.data()))
           .toList());
-  
+
+
+  void handleMarkerTap(ParkingSpot parkingSpot){
+    setState(() {
+      _selectedParkingSpot = parkingSpot;
+    });
+  }
+
   PanelController slidePanelController = PanelController();
   @override
   Widget build(BuildContext context) {
@@ -96,7 +105,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         body: SlidingUpPanel(
-            controller: slideMenuController,
+
+            controller: slidePanelController,
             minHeight: 25,
             borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
             body: FlutterMap(
@@ -122,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     if (snapshot.hasData) {
                       final parkingSpots = snapshot.data!;
                       final markerList = Markers().parkingSpotMarkers(
-                          parkingSpots, slideMenuController);
+                          parkingSpots, slidePanelController, handleMarkerTap);
                       return MarkerLayer(markers: markerList);
                     } else {
                       return MarkerLayer();
@@ -137,7 +147,8 @@ class _MyHomePageState extends State<MyHomePage> {
             // AppIcons().centerPosition(positionHandler),
             panelBuilder: (controller) => slide_up_menu(
                   controller: controller,
-                  panelController: slideMenuController,
+                  panelController: slidePanelController,
+                  selectedParkingSpot: _selectedParkingSpot,
                 )));
   }
 }

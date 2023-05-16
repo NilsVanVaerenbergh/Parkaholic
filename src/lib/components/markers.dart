@@ -4,7 +4,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:src/handlers/position.dart';
 import 'package:src/components/slide_up_menu.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:src/ParkingSpot.dart';
+import 'package:src/parkingSpot.dart';
 
 class Markers {
   Marker currentUserLocation(PositionHandler pos) {
@@ -24,14 +24,18 @@ class Markers {
   }
 
   List<Marker> parkingSpotMarkers(
-      List<ParkingSpot> parkingSpots, PanelController panelController) {
+      List<ParkingSpot> parkingSpots, PanelController panelController, Function(ParkingSpot) onMarkerTap) {
     return parkingSpots
         .map((parkingSpot) => Marker(
               width: 80.0,
               height: 80.0,
               point: LatLng(parkingSpot.lat, parkingSpot.lng),
               builder: (ctx) => GestureDetector(
-                  onTap: () => panelController.open(),
+                  //adv parkingSpot.inUse meegeven of men reserveSpot of leaveSpot mee moet geven
+                  onTap: ()  {
+                    panelController.open();
+                    onMarkerTap(parkingSpot);
+                    },
                   child: Icon(
                     Icons.local_parking,
                     size: 60,
