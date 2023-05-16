@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:src/components/button.dart';
 import 'package:src/components/textField.dart';
-import 'package:src/handlers/dataHandler.dart';
+import 'package:src/handlers/data_handler.dart';
 import 'package:src/pages/login.dart';
 
 class RegisterUser extends StatefulWidget {
@@ -30,8 +30,11 @@ class _RegisterUser extends State<RegisterUser> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(
-              150, 100.0, 150, 100.0), // <-- Add some padding
+          padding: EdgeInsets.fromLTRB(
+              MediaQuery.of(context).size.width * 0.2,
+              100.0,
+              MediaQuery.of(context).size.width * 0.2,
+              100.0), // <-- Add some padding
           child: Column(
             children: [
               const SizedBox(
