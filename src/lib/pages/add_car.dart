@@ -5,11 +5,14 @@ import 'package:src/components/textField.dart';
 import 'package:src/handlers/car_color.dart';
 import 'package:src/handlers/cars_handler.dart';
 
+import 'cars.dart';
+
 class AddCar extends StatefulWidget {
   AddCar({super.key, required this.userData});
   QueryDocumentSnapshot userData;
   String dropDownValue = "BMW";
-  String colorDropDownValue = "black";
+  DropdownMenuItem colorDropDownValue = DropdownMenuItem<String>(
+      value: CarColor.black.pathReference, child: Text(CarColor.black.name));
   @override
   State<StatefulWidget> createState() => _AddCar();
 }
@@ -74,19 +77,39 @@ class _AddCar extends State<AddCar> {
                 items: defaultColor.asList,
                 icon: const Icon(Icons.arrow_downward),
                 isExpanded: true,
-                value: widget.colorDropDownValue,
+                value: widget.colorDropDownValue.value,
                 hint: const Text("Kies je merk"),
-                onChanged: (String? value) {
+                onChanged: (Object? value) {
                   // This is called when the user selects an item.
                   setState(() {
-                    widget.colorDropDownValue = value!;
+                    if (value != null) {
+                      debugPrint(value.toString());
+                      widget.colorDropDownValue = DropdownMenuItem(
+                          value: value,
+                          child: Text(StupidFixForFlutterBeingDumb()
+                              .nameFromReference(value.toString())));
+                    }
                   });
                 },
               ),
               const SizedBox(
                 height: 50,
               ),
-              MyButton(onTap: () => {}, button_text: "Voeg auto toe")
+              MyButton(
+                  onTap: () => {
+                        CarsHandler().addCarToUser(
+                            widget.userData.id,
+                            widget.dropDownValue,
+                            carModelController.text.toString(),
+                            widget.colorDropDownValue.value.toString()),
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Cars(
+                                      userData: widget.userData,
+                                    )))
+                      },
+                  button_text: "Voeg auto toe")
             ],
           ),
         ),
