@@ -18,13 +18,14 @@ class DataHandler {
     bool createAccount = await checkIfDocAlreadyExists(
         collectionPath: "Users", key: "name", userName: name);
     if (createAccount) {
+      String generatedId = const Uuid().v4();
       DocumentReference docUser =
-          FirebaseFirestore.instance.collection("Users").doc(const Uuid().v4());
+          FirebaseFirestore.instance.collection("Users").doc(generatedId);
       final user = {
+        "id": generatedId,
         "name": name,
         "password": hashedPassword,
-        "created-at": DateTime.now().millisecondsSinceEpoch,
-        "cars": []
+        "created-at": DateTime.now().millisecondsSinceEpoch
       };
       docUser.set(user);
     } else {
@@ -63,7 +64,7 @@ class DataHandler {
           .get();
       if (userDoc.docs.isNotEmpty) {
         if (userDoc.docs.first.get("password") == hashedPassword) {
-          return userDoc.docs.first.data();
+          return userDoc.docs.first;
         } else {
           throw "Foutief wachtwoord of gebruikersnaam!";
         }
