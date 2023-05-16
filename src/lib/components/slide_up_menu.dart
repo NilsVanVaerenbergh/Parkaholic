@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:src/components/menuComponents/reserveSpot/reserveSpotStep2.dart';
+import 'package:src/components/menuComponents/reserveSpot/reserveSpotStep1.dart';
+import 'package:src/components/menuComponents/reserveSpot/reserveSpotStep3.dart';
+import 'package:src/components/menuComponents/templatePanel.dart';
+import 'package:src/parkingSpot.dart';
+
 
 class slide_up_menu extends StatefulWidget {
   const slide_up_menu({
     Key? key,
     required this.controller,
     required this.panelController,
+    required this.selectedParkingSpot,
     });
 
   final ScrollController controller;
   final PanelController panelController;
-
+  final ParkingSpot? selectedParkingSpot;
   @override
   State<slide_up_menu> createState() => _slide_up_menuState();
 }
 
 class _slide_up_menuState extends State<slide_up_menu> {
+  //https://stackoverflow.com/questions/51029655/call-method-in-one-stateful-widget-from-another-stateful-widget-flutter#:~:text=Calling%20a%20method%20of%20child,widget%20to%20update%20its%20children.
   
  @override
   Widget build(BuildContext context) => ListView(
@@ -29,7 +37,7 @@ class _slide_up_menuState extends State<slide_up_menu> {
           const SizedBox(
             height: 36,
           ),
-          const Center(child: Text("This is the sliding Widget")),
+          Center(child: TemplatePanel(selectedParkingSpot: widget.selectedParkingSpot, panelController: widget.panelController,)),
           const SizedBox(
             height: 24,
           )

@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:src/components/slide_up_menu.dart';
 
@@ -11,7 +12,7 @@ import '../components/icons.dart';
 import '../components/markers.dart';
 import '../handlers/position.dart';
 
-import 'package:src/ParkingSpot.dart';
+import 'package:src/parkingSpot.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
   PositionHandler positionHandler = PositionHandler();
   MapController mapController = MapController();
   Timer? timer;
+  ParkingSpot? _selectedParkingSpot;
 
   @override
   void initState() {
@@ -68,6 +70,11 @@ class _MyHomePageState extends State<MyHomePage> {
           .map((doc) => ParkingSpot.fromJson(doc.data()))
           .toList());
 
+  void handleMarkerTap(ParkingSpot parkingSpot){
+    setState(() {
+      _selectedParkingSpot = parkingSpot;
+    });
+  }
 
   PanelController slidePanelController = PanelController();
 
@@ -109,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 builder: (context, snapshot) {
                   if(snapshot.hasData){
                     final parkingSpots = snapshot.data!;
-                    final markerList = Markers().parkingSpotMarkers(parkingSpots, slidePanelController);
+                    final markerList = Markers().parkingSpotMarkers(parkingSpots, slidePanelController, handleMarkerTap);
                     return MarkerLayer(
                       markers: markerList
                     );
@@ -130,6 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
             panelBuilder:(controller) => slide_up_menu(
               controller: controller,
               panelController: slidePanelController,
+              selectedParkingSpot: _selectedParkingSpot,
             )
         ));
   }
