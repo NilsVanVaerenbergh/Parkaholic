@@ -16,7 +16,7 @@ class ReserveSpotStep1 extends StatefulWidget {
   @override
   State<ReserveSpotStep1> createState() => _ReserveSpotStep1State();
 }
-typedef contentCallback = void Function();
+// typedef contentCallback = void Function();
 class _ReserveSpotStep1State extends State<ReserveSpotStep1> {
 
   String determineCarSize(){
@@ -86,7 +86,7 @@ class _ReserveSpotStep1State extends State<ReserveSpotStep1> {
                  style: TextStyle(fontSize: 20),
                  children: <TextSpan>[
                     TextSpan(
-                      text: "Teststraat 123 Anterwerpen 2000",
+                      text: "Teststraat 123 Antwerpen 2000",
                       style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)
                     )
                  ]

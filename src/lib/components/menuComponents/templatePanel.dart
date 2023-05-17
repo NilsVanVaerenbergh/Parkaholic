@@ -28,6 +28,7 @@ class _TemplatePanelState extends State<TemplatePanel> {
   String _button_text = "Confirm";
   late Widget _currentContent;
   int leavingIn = 0;
+  final timeInputController = TextEditingController();
 
   @override
   void initState() {
@@ -58,7 +59,9 @@ class _TemplatePanelState extends State<TemplatePanel> {
                 _currentContent = ReserveSpotStep3();
                 _button_text = "Awsome!";
               } else if(_currentContent is LeaveSpotStep1){
-                _currentContent = LeaveSpotStep2();
+                leavingIn = int.parse(timeInputController.text);
+                timeInputController.text = "";
+                _currentContent = LeaveSpotStep2(leavingIn: leavingIn,);
               } else if(_currentContent is LeaveSpotStep2){
                 _currentContent = Text("Klik op een marker");
                 widget.panelController.close();
@@ -79,7 +82,7 @@ class _TemplatePanelState extends State<TemplatePanel> {
   void updateCurrentContent() {
     if (widget.selectedParkingSpot != null) {
       if (widget.selectedParkingSpot!.inUse == true) {
-        _currentContent = LeaveSpotStep1();
+        _currentContent = LeaveSpotStep1(timeInputController: timeInputController,);
       } else {
         _currentContent = ReserveSpotStep1(availableIn: 5, carSize: 2);
       }

@@ -40,22 +40,22 @@ class _MyHomePageState extends State<MyHomePage> {
   MapController mapController = MapController();
   Timer? timer;
   ParkingSpot? _selectedParkingSpot;
-
+  LatLng location = LatLng(51.229838, 4.4171506);
   @override
   void initState() {
     super.initState();
     positionHandler.checkLocationEnabled();
     debugPrint(widget.userData.data().toString());
     //zal center van map elke seconde naar currentlocation brengen.
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        if (positionHandler.updateMapCenter &&
-            positionHandler.locationPermission) {
-          positionHandler.getCurrentLocation();
-          mapController.move(positionHandler.location, 17.0);
-        }
-      });
-    });
+    // timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    //   setState(() {
+    //     if (positionHandler.updateMapCenter &&
+    //         positionHandler.locationPermission) {
+    //       positionHandler.getCurrentLocation();
+    //       mapController.move(positionHandler.location, 17.0);
+    //     }
+    //   });
+    // });
   }
 
   @override
@@ -112,11 +112,11 @@ class _MyHomePageState extends State<MyHomePage> {
             body: FlutterMap(
               mapController: mapController,
               options: MapOptions(
-                  center: positionHandler.location,
+                  center: location,
                   zoom: 17.0,
                   maxZoom: 17.0,
-                  // enableScrollWheel: false,
-                  //interactiveFlags: InteractiveFlag.none,
+                  enableScrollWheel: false,
+                  interactiveFlags: InteractiveFlag.none,
                   scrollWheelVelocity: 0.005,
                   onPositionChanged: ((position, hasGesture) =>
                       positionHandler.updateMapCenter = false)),
