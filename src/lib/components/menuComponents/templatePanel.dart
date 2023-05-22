@@ -1,5 +1,6 @@
 import 'dart:html';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -29,7 +30,7 @@ class _TemplatePanelState extends State<TemplatePanel> {
   late Widget _currentContent;
   int leavingIn = 0;
   final timeInputController = TextEditingController();
-
+  
   @override
   void initState() {
     super.initState();
@@ -60,6 +61,9 @@ class _TemplatePanelState extends State<TemplatePanel> {
                 _button_text = "Awsome!";
               } else if(_currentContent is LeaveSpotStep1){
                 leavingIn = int.parse(timeInputController.text);
+                if (widget.selectedParkingSpot != null) {
+                  widget.selectedParkingSpot!.leaveParkingSpot(leavingIn);
+                 }
                 timeInputController.text = "";
                 _currentContent = LeaveSpotStep2(leavingIn: leavingIn,);
               } else if(_currentContent is LeaveSpotStep2){
