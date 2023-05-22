@@ -72,8 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
           .map((doc) => ParkingSpot.fromJson(doc.data()))
           .toList());
 
-
-  void handleMarkerTap(ParkingSpot parkingSpot){
+  void handleMarkerTap(ParkingSpot parkingSpot) {
     setState(() {
       _selectedParkingSpot = parkingSpot;
     });
@@ -105,7 +104,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         body: SlidingUpPanel(
-
             controller: slidePanelController,
             minHeight: 25,
             borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
@@ -115,8 +113,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   center: location,
                   zoom: 17.0,
                   maxZoom: 17.0,
-                  enableScrollWheel: false,
-                  interactiveFlags: InteractiveFlag.none,
+                  // enableScrollWheel: false,
+                  // interactiveFlags: InteractiveFlag.none,
                   scrollWheelVelocity: 0.005,
                   onPositionChanged: ((position, hasGesture) =>
                       positionHandler.updateMapCenter = false)),
