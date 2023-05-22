@@ -1,3 +1,6 @@
+import 'dart:html';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 enum CarColor {
@@ -31,6 +34,10 @@ extension CarColorHandler on CarColor {
       default:
         return baseReferencePath + "black";
     }
+  }
+
+  String get collectionPath {
+    return baseReferencePath;
   }
 
   String get name {

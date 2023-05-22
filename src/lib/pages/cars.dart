@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:src/components/button.dart';
 import 'package:src/components/textField.dart';
+import 'package:src/handlers/cars_handler.dart';
 import 'package:src/pages/add_car.dart';
 
 class Cars extends StatefulWidget {
@@ -16,6 +17,9 @@ class _Cars extends State<Cars> {
   String errorMessage = "";
   @override
   Widget build(BuildContext context) {
+    CarsHandler()
+        .fetchUserCars(widget.userData.id)
+        .then((value) => debugPrint(value.toString()));
     return Scaffold(
       appBar: AppBar(
         title: Text("Auto's van ${widget.userData['name']}"),
@@ -36,13 +40,6 @@ class _Cars extends State<Cars> {
                 'Welkom ${widget.userData["name"]}',
                 style: TextStyle(fontSize: 20),
               ),
-              Text(
-                errorMessage,
-                style: const TextStyle(color: Colors.red),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
               MyButton(
                   button_text: "Voeg toe.",
                   onTap: () => {
@@ -52,7 +49,14 @@ class _Cars extends State<Cars> {
                                 builder: (context) => AddCar(
                                       userData: widget.userData,
                                     )))
-                      })
+                      }),
+              Text(
+                errorMessage,
+                style: const TextStyle(color: Colors.red),
+              ),
+              const SizedBox(
+                height: 50,
+              ),
             ],
           ),
         ),
