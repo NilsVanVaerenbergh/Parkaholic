@@ -12,7 +12,7 @@ class AddCar extends StatefulWidget {
   QueryDocumentSnapshot userData;
   String dropDownValue = "BMW";
   DropdownMenuItem colorDropDownValue = DropdownMenuItem<String>(
-      value: CarColor.black.pathReference, child: Text(CarColor.black.name));
+      value: CarColor.black.name, child: Text(CarColor.black.name));
   @override
   State<StatefulWidget> createState() => _AddCar();
 }
@@ -101,14 +101,14 @@ class _AddCar extends State<AddCar> {
                           widget.userData.id,
                           widget.dropDownValue,
                           carModelController.text.toString(),
-                          widget.colorDropDownValue.value,
+                          widget.colorDropDownValue.value.toString(),
                         ),
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Cars(
-                                      userData: widget.userData,
-                                    )))
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => Cars(
+                        //               userData: widget.userData,
+                        //             )))
                       },
                   button_text: "Voeg auto toe")
             ],
