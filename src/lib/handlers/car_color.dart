@@ -61,7 +61,7 @@ extension CarColorList on CarColor {
 }
 
 // Dit is nodig om een nieuwe DropDownMenuItem in add_car.dart te creeëren.
-//Omdat onchange bij een dropdown alleen de value terug geeft en niet heel de Item....
+// Omdat onchange bij een dropdown alleen de value terug geeft en niet heel de Item....
 class StupidFixForFlutterBeingDumb {
   String nameFromReference(String reference) {
     switch (reference) {
