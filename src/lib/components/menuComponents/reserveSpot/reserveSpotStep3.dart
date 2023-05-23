@@ -57,7 +57,7 @@ class _ReserveSpotStep3State extends State<ReserveSpotStep3> {
   Widget buildCarInfo(Car? car){
     return Row(
       children: [
-        SvgPicture.asset("../../../images/car.svg",semanticsLabel: "Car", width: 100, height: 100,),
+        SvgPicture.asset("car.svg",semanticsLabel: "Car", width: 100, height: 100,),
         Column(
           children: [
             Text("Model: ${car!.manufacturer} ${car.model}"),
