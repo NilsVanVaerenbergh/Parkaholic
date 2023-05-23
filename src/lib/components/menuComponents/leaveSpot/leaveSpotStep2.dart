@@ -25,11 +25,11 @@ class _LeaveSpotStep2State extends State<LeaveSpotStep2> {
           child: Center(
             child: Text.rich(
               TextSpan(
-                text: "You will be leaving in ",
+                text: "You will be leaving ",
                 style: TextStyle(fontSize: 15),
                 children: <TextSpan>[
                   TextSpan(
-                    text: widget.leavingIn.toString() + " minutes",
+                    text: "${DateTime.fromMicrosecondsSinceEpoch(widget.leavingIn)}",
                     style: TextStyle(fontSize: 15),
                   )
                 ]
