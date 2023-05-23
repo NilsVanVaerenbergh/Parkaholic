@@ -49,10 +49,13 @@ class _TemplatePanelState extends State<TemplatePanel> {
     super.initState();
     updateCurrentContent();
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        listOfCars = CarsHandler().fetchUserCars(widget.userData.id.toString());
-      });
-     });
+      if (mounted) {
+        setState(() {
+          listOfCars =
+              CarsHandler().fetchUserCars(widget.userData.id.toString());
+        });
+      }
+    });
   }
 
   @override
