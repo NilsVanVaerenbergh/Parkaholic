@@ -20,7 +20,8 @@ class CarItem implements ListItem {
 
   @override
   Widget buildTitle(BuildContext context, QueryDocumentSnapshot userData) {
-    return Row(children: [
+    return Container(
+        child: Row(children: [
       Text(manufacturer),
       const Spacer(),
       IconButton(
@@ -36,7 +37,7 @@ class CarItem implements ListItem {
                             ))),
               },
           icon: const Icon(Icons.remove_circle))
-    ]);
+    ]));
   }
 
   @override

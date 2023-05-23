@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:src/components/menuComponents/templatePanel.dart';
 import 'package:src/components/slide_up_menu.dart';
 import 'package:src/handlers/data_handler.dart';
 import 'package:src/pages/cars.dart';
@@ -79,6 +80,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void updateParkingSpot(ParkingSpot? spot) {}
+
   PanelController slidePanelController = PanelController();
   @override
   Widget build(BuildContext context) {
@@ -146,11 +149,35 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             // AppIcons().centerPosition(positionHandler),
-            panelBuilder: (controller) => slide_up_menu(
-                  controller: controller,
-                  panelController: slidePanelController,
-                  selectedParkingSpot: _selectedParkingSpot,
-                  userData: widget.userData,
-                )));
+            panelBuilder: (controller) {
+              return slide_up_menu(
+                controller: controller,
+                panelController: slidePanelController,
+                selectedParkingSpot: _selectedParkingSpot,
+                userData: widget.userData,
+              );
+            }),
+        floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: () {
+              if (slidePanelController.panelPosition > 0.5) {
+                setState(() {
+                  _selectedParkingSpot = null;
+                });
+              } else {
+                setState(() {
+                  _selectedParkingSpot = null;
+                });
+                slidePanelController.open();
+                debugPrint(_selectedParkingSpot.toString());
+              }
+            }));
   }
+
+  // void setContent() {
+  //   TemplatePanel(
+  //     panelController: slidePanelController,
+  //     userData: widget,
+  //   ).initContent = const Text("test");
+  // }
 }

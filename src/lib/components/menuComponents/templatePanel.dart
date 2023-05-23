@@ -2,27 +2,35 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:src/components/button.dart';
+import 'package:src/components/menuComponents/addParkingSpot.dart';
 import 'package:src/components/menuComponents/reserveSpot/reserveSpotStep1.dart';
 import 'package:src/components/menuComponents/reserveSpot/reserveSpotStep2.dart';
 import 'package:src/components/menuComponents/reserveSpot/reserveSpotStep2AddCar.dart';
 import 'package:src/components/menuComponents/reserveSpot/reserveSpotStep3.dart';
 import 'package:src/components/menuComponents/leaveSpot/leaveSpotStep1.dart';
 import 'package:src/components/menuComponents/leaveSpot/leaveSpotStep2.dart';
+import 'package:src/main.dart';
 import 'package:src/parkingSpot.dart';
 import 'dart:async';
 import 'package:src/car.dart';
 import 'package:src/handlers/cars_handler.dart';
 
 class TemplatePanel extends StatefulWidget {
-  const TemplatePanel(
-      {super.key,
-      required this.selectedParkingSpot,
-      required this.panelController,
-      required this.userData});
+  TemplatePanel({
+    super.key,
+    required this.selectedParkingSpot,
+    required this.panelController,
+    required this.userData,
+  });
 
   final QueryDocumentSnapshot userData;
   final PanelController panelController;
-  final ParkingSpot? selectedParkingSpot;
+  ParkingSpot? selectedParkingSpot;
+  Widget initContent = const Text("home");
+
+  set context(Widget inContect) {
+    initContent = inContect;
+  }
 
   @override
   State<TemplatePanel> createState() => _TemplatePanelState();
@@ -31,9 +39,11 @@ class TemplatePanel extends StatefulWidget {
 class _TemplatePanelState extends State<TemplatePanel> {
   Timer? timer;
   String _button_text = "Confirm";
-  late Widget _currentContent;
+  late Widget _currentContent = widget.initContent;
   int leavingIn = 0;
   final timeInputController = TextEditingController();
+  TextEditingController parkingSpotSizeController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
   late Future<List<Car>> listOfCars;
   late String selectedCarId = "";
   late String previousCarId;
@@ -55,18 +65,26 @@ class _TemplatePanelState extends State<TemplatePanel> {
 
   @override
   void initState() {
+    setState(() {
+      listOfCars = CarsHandler().fetchUserCars(widget.userData.id.toString());
+    });
     super.initState();
     updateCurrentContent();
     // timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-    //   setState(() {
-    //     listOfCars = CarsHandler().fetchUserCars(widget.userData.id.toString());
-    //   });
-    //  });
+    //   if (_currentContent is ReserveSpotStep2 && mounted) {
+    //     setState(() {
+    //       listOfCars =
+    //           CarsHandler().fetchUserCars(widget.userData.id.toString());
+    //     });
+    //   }
+    // });
   }
 
   @override
   void didUpdateWidget(TemplatePanel oldWidget) {
     super.didUpdateWidget(oldWidget);
+    debugPrint(
+        "parkingsSpot old ${oldWidget.selectedParkingSpot} - new ${widget.selectedParkingSpot}");
     if (widget.selectedParkingSpot != oldWidget.selectedParkingSpot) {
       updateCurrentContent();
     }
@@ -74,6 +92,9 @@ class _TemplatePanelState extends State<TemplatePanel> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      listOfCars = CarsHandler().fetchUserCars(widget.userData.id.toString());
+    });
     return Column(
       children: [
         _currentContent,
@@ -101,7 +122,7 @@ class _TemplatePanelState extends State<TemplatePanel> {
                 });
               } else if (_currentContent is ReserveSpotStep2 ||
                   _currentContent is ReserveSpotStep2AddCar) {
-                previousCarId = widget.selectedParkingSpot!.carId;
+                previousCarId = widget.selectedParkingSpot!.car;
                 widget.selectedParkingSpot!
                     .reserveParkingSpot(selectedCarId, widget.userData.id);
                 _currentContent = ReserveSpotStep3(
@@ -122,6 +143,24 @@ class _TemplatePanelState extends State<TemplatePanel> {
               } else if (_currentContent is LeaveSpotStep2) {
                 _currentContent = const Text("Klik op een marker");
                 widget.panelController.close();
+              } else if (_currentContent is AddParkingSpot) {
+                final doc =
+                    FirebaseFirestore.instance.collection("ParkingSpots").doc();
+                positionHandler.getCurrentLocation();
+                doc.set({
+                  "car": "0",
+                  "inUse": true,
+                  "lat": positionHandler.location.latitude,
+                  "lng": positionHandler.location.longitude,
+                  "size": parkingSpotSizeController.text == ""
+                      ? "medium"
+                      : parkingSpotSizeController.text,
+                  "id": doc.id,
+                  "address": addressController.text,
+                  "availableIn": 0,
+                  "timeOfLeaving": 0,
+                  "userId": widget.userData.id,
+                });
               }
             });
           },
@@ -144,7 +183,12 @@ class _TemplatePanelState extends State<TemplatePanel> {
         );
       }
     } else {
-      _currentContent = const Text("Klik op een marker");
+      _button_text = "create";
+      _currentContent = AddParkingSpot(
+        userData: widget.userData,
+        dropDownController: parkingSpotSizeController,
+        addressController: addressController,
+      );
     }
   }
 }
