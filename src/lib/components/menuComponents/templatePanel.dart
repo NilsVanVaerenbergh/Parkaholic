@@ -36,7 +36,7 @@ class _TemplatePanelState extends State<TemplatePanel> {
   final timeInputController = TextEditingController();
   late Future<List<Car>> listOfCars;
   late String selectedCarId = "";
-  String? previousCarReference;
+  late String previousCarId;
   
   void handleCarSelected(String carId) {
     setState(() {
@@ -78,9 +78,9 @@ class _TemplatePanelState extends State<TemplatePanel> {
                 });
               }
                else if (_currentContent is ReserveSpotStep2) {
-                previousCarReference = widget.selectedParkingSpot!.carId;
+                previousCarId = widget.selectedParkingSpot!.carId;
                 widget.selectedParkingSpot!.reserveParkingSpot(selectedCarId, widget.userData.id);
-                _currentContent = ReserveSpotStep3();
+                _currentContent = ReserveSpotStep3(carId: previousCarId,);
                 _button_text = "Awsome!";
               }
                else if(_currentContent is ReserveSpotStep3){
