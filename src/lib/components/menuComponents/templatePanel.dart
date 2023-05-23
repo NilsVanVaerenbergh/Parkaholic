@@ -17,7 +17,11 @@ import 'package:src/car.dart';
 import 'package:src/handlers/cars_handler.dart';
 
 class TemplatePanel extends StatefulWidget {
-  const TemplatePanel({super.key, required this.selectedParkingSpot, required this.panelController, required this.userData});
+  const TemplatePanel(
+      {super.key,
+      required this.selectedParkingSpot,
+      required this.panelController,
+      required this.userData});
 
   final QueryDocumentSnapshot userData;
   final PanelController panelController;
@@ -26,9 +30,8 @@ class TemplatePanel extends StatefulWidget {
   @override
   State<TemplatePanel> createState() => _TemplatePanelState();
 }
-    
+
 class _TemplatePanelState extends State<TemplatePanel> {
-  
   Timer? timer;
   String _button_text = "Confirm";
   late Widget _currentContent;
@@ -37,7 +40,7 @@ class _TemplatePanelState extends State<TemplatePanel> {
   late Future<List<Car>> listOfCars;
   late String selectedCarId = "";
   late String previousCarId;
-  
+
   void handleCarSelected(String carId) {
     setState(() {
       selectedCarId = carId;
@@ -61,60 +64,69 @@ class _TemplatePanelState extends State<TemplatePanel> {
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       children: [
         _currentContent,
-      MyButton(
-        onTap: (){
-          setState(() {
-            if (_currentContent is ReserveSpotStep1) {
-              listOfCars.then((List<Car> list) {
-                if (list.isEmpty){
-                  _currentContent = const Text("U heeft nog geen auto op dit accout. Klik rechtsboven op het account icon om auto's toe te voegen.");
-                } else {  
-                  _currentContent = ReserveSpotStep2(userData: widget.userData,listOfCars: listOfCars,selectedCarId:selectedCarId,onCarSelected: handleCarSelected,);
-                _button_text = "Reserve";
-                }
+        MyButton(
+          onTap: () {
+            setState(() {
+              if (_currentContent is ReserveSpotStep1) {
+                listOfCars.then((List<Car> list) {
+                  if (list.isEmpty) {
+                    _currentContent = const Text(
+                        "U heeft nog geen auto op dit accout. Klik rechtsboven op het account icon om auto's toe te voegen.");
+                  } else {
+                    _currentContent = ReserveSpotStep2(
+                      userData: widget.userData,
+                      listOfCars: listOfCars,
+                      selectedCarId: selectedCarId,
+                      onCarSelected: handleCarSelected,
+                    );
+                    _button_text = "Reserve";
+                  }
                 });
-              }
-               else if (_currentContent is ReserveSpotStep2) {
+              } else if (_currentContent is ReserveSpotStep2) {
                 previousCarId = widget.selectedParkingSpot!.carId;
-                widget.selectedParkingSpot!.reserveParkingSpot(selectedCarId, widget.userData.id);
-                _currentContent = ReserveSpotStep3(carId: previousCarId,);
+                widget.selectedParkingSpot!
+                    .reserveParkingSpot(selectedCarId, widget.userData.id);
+                _currentContent = ReserveSpotStep3(
+                  carId: previousCarId,
+                );
                 _button_text = "Awsome!";
-              }
-               else if(_currentContent is ReserveSpotStep3){
-                _currentContent = Text("Klik op een marker");
+              } else if (_currentContent is ReserveSpotStep3) {
+                _currentContent = const Text("Klik op een marker");
                 widget.panelController.close();
-              }
-              else if(_currentContent is LeaveSpotStep1){
+              } else if (_currentContent is LeaveSpotStep1) {
                 leavingIn = int.parse(timeInputController.text);
                 if (widget.selectedParkingSpot != null) {
                   widget.selectedParkingSpot!.leaveParkingSpot(leavingIn);
-                 }
+                }
                 timeInputController.text = "";
-                _currentContent = LeaveSpotStep2(leavingIn: leavingIn,);
-              }
-               else if(_currentContent is LeaveSpotStep2){
-                _currentContent = Text("Klik op een marker");
+                _currentContent = LeaveSpotStep2(
+                  leavingIn: leavingIn,
+                );
+              } else if (_currentContent is LeaveSpotStep2) {
+                _currentContent = const Text("Klik op een marker");
                 widget.panelController.close();
-              } 
-              
-          });
-        },
-        button_text: _button_text,
+              }
+            });
+          },
+          button_text: _button_text,
         )
       ],
-      
     );
   }
 
   void updateCurrentContent() {
     if (widget.selectedParkingSpot != null) {
       if (widget.selectedParkingSpot!.inUse == true) {
-        _currentContent = LeaveSpotStep1(timeInputController: timeInputController,);
+        _currentContent = LeaveSpotStep1(
+          timeInputController: timeInputController,
+        );
       } else {
-        _currentContent = ReserveSpotStep1(selectedParkingSpot: widget.selectedParkingSpot,);
+        _currentContent = ReserveSpotStep1(
+          selectedParkingSpot: widget.selectedParkingSpot,
+        );
       }
     } else {
       _currentContent = Text("Klik op een marker");
