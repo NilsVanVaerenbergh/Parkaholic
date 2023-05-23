@@ -17,11 +17,11 @@ class ParkingSpot {
     bool inUse;
     double lat;
     double lng;
-    int size;
+    String size;
     String carId;
     String address;
     int? timeOfLeaving;
-    int? availableIn;
+    int availableIn;
     String userId;
 
     ParkingSpot({
@@ -33,7 +33,7 @@ class ParkingSpot {
         required this.carId,
         required this.address,
         required this.userId,
-        this.availableIn,
+        required this.availableIn,
         this.timeOfLeaving
     });
 
@@ -66,11 +66,10 @@ class ParkingSpot {
     };
 
     void leaveParkingSpot(int leavingIn) {
-      int timeOfLeavingEpoch = DateTime.now().add(Duration(minutes: leavingIn)).microsecondsSinceEpoch;
       DocumentReference parkingSpotDoc = FirebaseFirestore.instance.collection("ParkingSpots").doc(id);
         parkingSpotDoc.update({
           "inUse": false,
-          "availableIn": timeOfLeavingEpoch,
+          "availableIn": leavingIn,
           "timeOfLeaving": DateTime.now().microsecondsSinceEpoch,
         });
 }

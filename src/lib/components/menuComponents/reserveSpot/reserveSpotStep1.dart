@@ -32,11 +32,22 @@ class _ReserveSpotStep1State extends State<ReserveSpotStep1> {
      });
   }
   getTimeOfLeavingString(){
-    int? leavingInMiliseconds = (widget.selectedParkingSpot!.availableIn! - DateTime.now().microsecondsSinceEpoch); 
+    int? leavingInMiliseconds = (widget.selectedParkingSpot!.availableIn - DateTime.now().microsecondsSinceEpoch); 
       if (leavingInMiliseconds > 0){
-        leavingInMinutes = (leavingInMiliseconds/(1000*1000*60)).ceil();
         setState(() {
-          leavingString = leavingInMinutes.toString() + " minutes";
+          DateTime selectedTime = DateTime.fromMicrosecondsSinceEpoch(widget.selectedParkingSpot!.availableIn);
+
+String twoDigits(int n) {
+  if (n >= 10) {
+    return "$n";
+  }
+  return "0$n";
+}
+
+String formattedDate = "${twoDigits(selectedTime.day)}/${twoDigits(selectedTime.month)}/${selectedTime.year} ${twoDigits(selectedTime.hour)}:${twoDigits(selectedTime.minute)}";
+leavingString = "on ${formattedDate.toString()}";
+
+
         });
       }
       else{
@@ -82,7 +93,7 @@ class _ReserveSpotStep1State extends State<ReserveSpotStep1> {
                 height: 20,
               ),
               Text.rich(TextSpan(
-                  text: "Available in: ",
+                  text: "Available ",
                   style: TextStyle(fontSize: 20),
                   children: <TextSpan>[
                     TextSpan(

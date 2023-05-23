@@ -37,6 +37,7 @@ class _TemplatePanelState extends State<TemplatePanel> {
   late Future<List<Car>> listOfCars;
   late String selectedCarId = "";
   late String previousCarId;
+  DateTime leavingDate = DateTime.now();
 
   void handleCarSelected(String carId) {
     setState(() {
@@ -44,15 +45,23 @@ class _TemplatePanelState extends State<TemplatePanel> {
     });
   }
 
+  void handleDateSelected(DateTime date){
+    setState(() {
+      leavingDate = date;
+      print(leavingDate);
+      print(leavingDate.microsecondsSinceEpoch);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     updateCurrentContent();
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        listOfCars = CarsHandler().fetchUserCars(widget.userData.id.toString());
-      });
-     });
+    // timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    //   setState(() {
+    //     listOfCars = CarsHandler().fetchUserCars(widget.userData.id.toString());
+    //   });
+    //  });
   }
 
   @override
@@ -103,11 +112,10 @@ class _TemplatePanelState extends State<TemplatePanel> {
                 _currentContent = const Text("Klik op een marker");
                 widget.panelController.close();
               } else if (_currentContent is LeaveSpotStep1) {
-                leavingIn = int.parse(timeInputController.text);
+                leavingIn = leavingDate.microsecondsSinceEpoch;
                 if (widget.selectedParkingSpot != null) {
                   widget.selectedParkingSpot!.leaveParkingSpot(leavingIn);
                 }
-                timeInputController.text = "";
                 _currentContent = LeaveSpotStep2(
                   leavingIn: leavingIn,
                 );
@@ -127,7 +135,8 @@ class _TemplatePanelState extends State<TemplatePanel> {
     if (widget.selectedParkingSpot != null) {
       if (widget.selectedParkingSpot!.inUse == true) {
         _currentContent = LeaveSpotStep1(
-          timeInputController: timeInputController,
+          leavingDate: leavingDate,
+          onTimeSelected: handleDateSelected,
         );
       } else {
         _currentContent = ReserveSpotStep1(
