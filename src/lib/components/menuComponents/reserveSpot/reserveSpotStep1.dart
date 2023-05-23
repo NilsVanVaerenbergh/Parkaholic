@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -16,6 +18,41 @@ class ReserveSpotStep1 extends StatefulWidget {
 }
 
 class _ReserveSpotStep1State extends State<ReserveSpotStep1> {
+
+  late int leavingInMinutes;
+  Timer? timer;
+  String leavingString = "";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getTimeOfLeavingString();
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    getTimeOfLeavingString();  
+     });
+  }
+  getTimeOfLeavingString(){
+    int? leavingInMiliseconds = (widget.selectedParkingSpot!.availableIn! - DateTime.now().microsecondsSinceEpoch); 
+      if (leavingInMiliseconds > 0){
+        leavingInMinutes = (leavingInMiliseconds/(1000*1000*60)).ceil();
+        setState(() {
+          leavingString = leavingInMinutes.toString() + " minutes";
+        });
+      }
+      else{
+        setState(() {
+          leavingString = "NOW";
+        });
+
+      }
+  }
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+
   String determineCarSize() {
     if (widget.selectedParkingSpot!.size == 0) {
       return "small";
@@ -49,7 +86,7 @@ class _ReserveSpotStep1State extends State<ReserveSpotStep1> {
                   style: TextStyle(fontSize: 20),
                   children: <TextSpan>[
                     TextSpan(
-                        text: widget.selectedParkingSpot!.availableIn.toString() + " minutes",
+                        text: leavingString,
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold))
                   ])),
