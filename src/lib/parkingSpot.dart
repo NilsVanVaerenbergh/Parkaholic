@@ -16,10 +16,11 @@ class ParkingSpot {
     double lat;
     double lng;
     int size;
-    DocumentReference carId;
+    String carId;
     String address;
     int? timeOfLeaving;
     int? availableIn;
+    String userId;
 
     ParkingSpot({
         required this.id,
@@ -29,6 +30,7 @@ class ParkingSpot {
         required this.size,
         required this.carId,
         required this.address,
+        required this.userId,
         this.availableIn,
         this.timeOfLeaving
     });
@@ -42,7 +44,8 @@ class ParkingSpot {
         id: json["id"],
         address: json["address"],
         availableIn: json["availableIn"],
-        timeOfLeaving: json["timeOfLeaving"]
+        timeOfLeaving: json["timeOfLeaving"],
+        userId: json["userId"]
     );
 
     Map<String, dynamic> toJson() => {
@@ -55,20 +58,23 @@ class ParkingSpot {
         "address": address,
         "availableIn": availableIn,
         "timeOfLeaving": timeOfLeaving,
+        "userId": userId,
     };
 
     void leaveParkingSpot(int leavingIn) {
-      DocumentReference docUser = FirebaseFirestore.instance.collection("ParkingSpots").doc(id);
-        docUser.update({
+      DocumentReference parkingSpotDoc = FirebaseFirestore.instance.collection("ParkingSpots").doc(id);
+        parkingSpotDoc.update({
           "inUse": false,
           "availableIn": leavingIn,
           "timeOfLeaving": DateTime.now().microsecondsSinceEpoch,
-        }).then((_) {
-        // Update completed
-        print("Parking spot updated successfully.");
-        }).catchError((error) {
-        // Error occurred while updating
-      print("Error updating parking spot: $error");
-  });
+        });
 }
+  void reserveParkingSpot(String NewCarId, String newUserId){
+    DocumentReference parkingSpotDoc = FirebaseFirestore.instance.collection("ParkingSpots").doc(id);
+    parkingSpotDoc.update({
+      "inUse": true,
+      "car": NewCarId,
+      "userId": newUserId,
+    });
+  }
 }

@@ -4,7 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 
 class ReserveSpotStep3 extends StatefulWidget {
   const ReserveSpotStep3({super.key});
-
+  
   @override
   State<ReserveSpotStep3> createState() => _ReserveSpotStep3State();
 }

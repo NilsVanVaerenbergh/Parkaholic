@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:src/components/menuComponents/reserveSpot/reserveSpotStep2.dart';
@@ -13,8 +14,10 @@ class slide_up_menu extends StatefulWidget {
     required this.controller,
     required this.panelController,
     required this.selectedParkingSpot,
+    required this.userData,
     });
 
+  final QueryDocumentSnapshot userData;
   final ScrollController controller;
   final PanelController panelController;
   final ParkingSpot? selectedParkingSpot;
@@ -37,7 +40,7 @@ class _slide_up_menuState extends State<slide_up_menu> {
           const SizedBox(
             height: 36,
           ),
-          Center(child: TemplatePanel(selectedParkingSpot: widget.selectedParkingSpot, panelController: widget.panelController,)),
+          Center(child: TemplatePanel(selectedParkingSpot: widget.selectedParkingSpot, panelController: widget.panelController,userData: widget.userData,)),
           const SizedBox(
             height: 24,
           )

@@ -3,16 +3,13 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:src/components/button.dart';
 import 'package:src/components/menuComponents/reserveSpot/reserveSpotStep2.dart';
+import 'package:src/parkingSpot.dart';
 
 class ReserveSpotStep1 extends StatefulWidget {
   const ReserveSpotStep1(
-      {super.key, required this.availableIn, required this.carSize});
+      {super.key, required this.selectedParkingSpot });
 
-  final int availableIn;
-  final int carSize;
-  //final contentCallback nextContent;
-  //TODO: address toevoegen aan parkingSpot
-  //final String address
+  final ParkingSpot? selectedParkingSpot;
 
   @override
   State<ReserveSpotStep1> createState() => _ReserveSpotStep1State();
@@ -20,11 +17,11 @@ class ReserveSpotStep1 extends StatefulWidget {
 
 class _ReserveSpotStep1State extends State<ReserveSpotStep1> {
   String determineCarSize() {
-    if (widget.carSize == 0) {
+    if (widget.selectedParkingSpot!.size == 0) {
       return "small";
-    } else if (widget.carSize == 1) {
+    } else if (widget.selectedParkingSpot!.size == 1) {
       return "medium";
-    } else if (widget.carSize == 2) {
+    } else if (widget.selectedParkingSpot!.size == 2) {
       return "large";
     } else {
       return "unknown";
@@ -52,7 +49,7 @@ class _ReserveSpotStep1State extends State<ReserveSpotStep1> {
                   style: TextStyle(fontSize: 20),
                   children: <TextSpan>[
                     TextSpan(
-                        text: widget.availableIn.toString() + " minutes",
+                        text: widget.selectedParkingSpot!.availableIn.toString() + " minutes",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold))
                   ])),
@@ -71,12 +68,12 @@ class _ReserveSpotStep1State extends State<ReserveSpotStep1> {
               const SizedBox(
                 height: 20,
               ),
-              const Text.rich(TextSpan(
+              Text.rich(TextSpan(
                   text: "address: ",
                   style: TextStyle(fontSize: 20),
                   children: <TextSpan>[
                     TextSpan(
-                        text: "Teststraat 123 Anterwerpen 2000",
+                        text: widget.selectedParkingSpot!.address,
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold))
                   ])),

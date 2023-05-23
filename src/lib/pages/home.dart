@@ -147,6 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   controller: controller,
                   panelController: slidePanelController,
                   selectedParkingSpot: _selectedParkingSpot,
+                  userData: widget.userData,
                 )));
   }
 }
