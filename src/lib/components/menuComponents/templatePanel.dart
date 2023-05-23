@@ -48,7 +48,11 @@ class _TemplatePanelState extends State<TemplatePanel> {
   void initState() {
     super.initState();
     updateCurrentContent();
-    listOfCars = CarsHandler().fetchUserCars(widget.userData.id);
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        listOfCars = CarsHandler().fetchUserCars(widget.userData.id.toString());
+      });
+     });
   }
 
   @override
@@ -103,7 +107,7 @@ class _TemplatePanelState extends State<TemplatePanel> {
           });
         },
         button_text: _button_text,
-        )
+        ),
       ],
       
     );
