@@ -21,17 +21,17 @@ extension CarColorHandler on CarColor {
   String get name {
     switch (this) {
       case CarColor.black:
-        return "black";
+        return "Black";
       case CarColor.grey:
-        return "grey";
+        return "Grey";
       case CarColor.blue:
-        return "blue";
+        return "Blue";
       case CarColor.red:
-        return "red";
+        return "Red";
       case CarColor.white:
-        return "white";
+        return "White";
       default:
-        return "black";
+        return "Black";
     }
   }
 }
