@@ -27,10 +27,7 @@ class CarItem implements ListItem {
           color: Colors.red,
           onPressed: () => {
                 FirebaseFirestore.instance.collection("Cars").doc(id).delete(),
-                Navigator.pop(context),
-                Navigator.pop(context),
-                Navigator.pop(context),
-                Navigator.push(
+                Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (context) => Cars(
