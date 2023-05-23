@@ -103,12 +103,12 @@ class _AddCar extends State<AddCar> {
                           carModelController.text.toString(),
                           widget.colorDropDownValue.value.toString(),
                         ),
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => Cars(
-                        //               userData: widget.userData,
-                        //             )))
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Cars(
+                                      userData: widget.userData,
+                                    )))
                       },
                   button_text: "Voeg auto toe")
             ],

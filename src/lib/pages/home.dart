@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
   final String title;
   QueryDocumentSnapshot userData;
-
+  String routeName = "/home";
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     positionHandler.checkLocationEnabled();
-    debugPrint(widget.userData.data().toString());
+
     //zal center van map elke seconde naar currentlocation brengen.
     // timer = Timer.periodic(const Duration(seconds: 1), (timer) {
     //   setState(() {
