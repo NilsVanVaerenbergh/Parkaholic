@@ -8,8 +8,7 @@ import 'package:src/components/menuComponents/reserveSpot/reserveSpotStep2.dart'
 import 'package:src/parkingSpot.dart';
 
 class ReserveSpotStep1 extends StatefulWidget {
-  const ReserveSpotStep1(
-      {super.key, required this.selectedParkingSpot });
+  const ReserveSpotStep1({super.key, required this.selectedParkingSpot});
 
   final ParkingSpot? selectedParkingSpot;
 
@@ -18,7 +17,6 @@ class ReserveSpotStep1 extends StatefulWidget {
 }
 
 class _ReserveSpotStep1State extends State<ReserveSpotStep1> {
-
   late int leavingInMinutes;
   Timer? timer;
   String leavingString = "";
@@ -28,41 +26,33 @@ class _ReserveSpotStep1State extends State<ReserveSpotStep1> {
     super.initState();
     getTimeOfLeavingString();
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
-    getTimeOfLeavingString();  
-     });
+      getTimeOfLeavingString();
+    });
   }
-  getTimeOfLeavingString(){
-    int? leavingInMiliseconds = (widget.selectedParkingSpot!.availableIn! - DateTime.now().microsecondsSinceEpoch); 
-      if (leavingInMiliseconds > 0){
-        leavingInMinutes = (leavingInMiliseconds/(1000*1000*60)).ceil();
-        setState(() {
-          leavingString = leavingInMinutes.toString() + " minutes";
-        });
-      }
-      else{
-        setState(() {
-          leavingString = "NOW";
-        });
 
-      }
+  getTimeOfLeavingString() {
+    int? leavingInMiliseconds = (widget.selectedParkingSpot!.availableIn! -
+        DateTime.now().microsecondsSinceEpoch);
+    if (leavingInMiliseconds > 0) {
+      leavingInMinutes = (leavingInMiliseconds / (1000 * 1000 * 60)).ceil();
+      setState(() {
+        leavingString = leavingInMinutes.toString() + " minutes";
+      });
+    } else {
+      setState(() {
+        leavingString = "NOW";
+      });
+    }
   }
+
   @override
   void dispose() {
     timer?.cancel();
     super.dispose();
   }
 
-
   String determineCarSize() {
-    if (widget.selectedParkingSpot!.size == 0) {
-      return "small";
-    } else if (widget.selectedParkingSpot!.size == 1) {
-      return "medium";
-    } else if (widget.selectedParkingSpot!.size == 2) {
-      return "large";
-    } else {
-      return "unknown";
-    }
+    return widget.selectedParkingSpot!.size;
   }
 
   @override
