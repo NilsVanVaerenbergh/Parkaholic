@@ -31,7 +31,7 @@ class TemplatePanel extends StatefulWidget {
 class _TemplatePanelState extends State<TemplatePanel> {
   Timer? timer;
   String _button_text = "Confirm";
-  late Widget _currentContent;
+  late Widget _currentContent = const Text("Klik op een marker");
   int leavingIn = 0;
   final timeInputController = TextEditingController();
   late Future<List<Car>> listOfCars;
@@ -49,10 +49,13 @@ class _TemplatePanelState extends State<TemplatePanel> {
     super.initState();
     updateCurrentContent();
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        listOfCars = CarsHandler().fetchUserCars(widget.userData.id.toString());
-      });
-     });
+      if (mounted) {
+        setState(() {
+          listOfCars =
+              CarsHandler().fetchUserCars(widget.userData.id.toString());
+        });
+      }
+    });
   }
 
   @override
