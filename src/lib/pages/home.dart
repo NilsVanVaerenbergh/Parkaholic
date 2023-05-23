@@ -7,6 +7,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:src/components/slide_up_menu.dart';
+import 'package:src/handlers/data_handler.dart';
 import 'package:src/pages/cars.dart';
 
 import '../components/icons.dart';
@@ -30,7 +31,7 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
   final String title;
   QueryDocumentSnapshot userData;
-
+  String routeName = "/home";
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -45,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     positionHandler.checkLocationEnabled();
-    debugPrint(widget.userData.data().toString());
+
     //zal center van map elke seconde naar currentlocation brengen.
     // timer = Timer.periodic(const Duration(seconds: 1), (timer) {
     //   setState(() {
@@ -128,12 +129,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   stream: readParkingSpots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      final parkingSpots = snapshot.data!;
+                      debugPrint(snapshot.data!.toString());
+                      final parkingSpots = DataHandler().filterParkingSpots(
+                          snapshot.data!, widget.userData.id);
                       final markerList = Markers().parkingSpotMarkers(
                           parkingSpots, slidePanelController, handleMarkerTap);
                       return MarkerLayer(markers: markerList);
                     } else {
-                      return MarkerLayer();
+                      return const MarkerLayer();
                     }
                   },
                 ),

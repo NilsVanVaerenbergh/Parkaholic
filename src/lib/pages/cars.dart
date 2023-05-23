@@ -1,7 +1,10 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:src/car.dart';
 import 'package:src/components/button.dart';
-import 'package:src/components/textField.dart';
+import 'package:src/components/list_item.dart';
 import 'package:src/handlers/cars_handler.dart';
 import 'package:src/pages/add_car.dart';
 
@@ -15,11 +18,30 @@ class Cars extends StatefulWidget {
 
 class _Cars extends State<Cars> {
   String errorMessage = "";
+  List<Car> carList = [];
+  List<CarItem> carItemList = [];
+
+  void createInitState() {
+    debugPrint("ran void createInitState()");
+    CarsHandler().fetchUserCars(widget.userData.id).then((value) => {
+          setState(() => carList = value),
+          if (carItemList.length < value.length)
+            {
+              value.forEach((element) {
+                carItemList.add(CarItem(
+                    manufacturer: element.manufacturer,
+                    model: element.model,
+                    id: element.id));
+              })
+            }
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
-    CarsHandler()
-        .fetchUserCars(widget.userData.id)
-        .then((value) => debugPrint(value.toString()));
+    if (carList.isEmpty && carItemList.isEmpty) {
+      createInitState();
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text("Auto's van ${widget.userData['name']}"),
@@ -38,7 +60,7 @@ class _Cars extends State<Cars> {
               ),
               Text(
                 'Welkom ${widget.userData["name"]}',
-                style: TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 20),
               ),
               MyButton(
                   button_text: "Voeg toe.",
@@ -57,6 +79,18 @@ class _Cars extends State<Cars> {
               const SizedBox(
                 height: 50,
               ),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: carItemList.length,
+                itemBuilder: (context, index) {
+                  final item = carItemList[index];
+                  return ListTile(
+                    tileColor: const Color.fromARGB(255, 225, 226, 227),
+                    title: item.buildTitle(context, widget.userData),
+                    subtitle: item.buildSubtitle(context),
+                  );
+                },
+              )
             ],
           ),
         ),

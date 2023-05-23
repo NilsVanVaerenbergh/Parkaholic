@@ -6,11 +6,13 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-ParkingSpot parkingSpotFromJson(String str) => ParkingSpot.fromJson(json.decode(str));
+ParkingSpot parkingSpotFromJson(String str) =>
+    ParkingSpot.fromJson(json.decode(str));
 
 String parkingSpotToJson(ParkingSpot data) => json.encode(data.toJson());
 
 class ParkingSpot {
+
     String id;
     bool inUse;
     double lat;
@@ -48,7 +50,8 @@ class ParkingSpot {
         userId: json["userId"]
     );
 
-    Map<String, dynamic> toJson() => {
+
+  Map<String, dynamic> toJson() => {
         "car": carId,
         "inUse": inUse,
         "lat": lat,
@@ -58,6 +61,7 @@ class ParkingSpot {
         "address": address,
         "availableIn": availableIn,
         "timeOfLeaving": timeOfLeaving,
+
         "userId": userId,
     };
 
@@ -75,6 +79,7 @@ class ParkingSpot {
       "inUse": true,
       "car": NewCarId,
       "userId": newUserId,
+
     });
   }
 }
