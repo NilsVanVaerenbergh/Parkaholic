@@ -21,9 +21,9 @@ class ParkingSpot {
   String car;
   String address;
   int? timeOfLeaving;
-  int availableIn;
+  int? availableIn;
   String userId;
-  
+
   ParkingSpot(
       {required this.id,
       required this.inUse,
@@ -33,9 +33,9 @@ class ParkingSpot {
       required this.car,
       required this.address,
       required this.userId,
-      required this.availableIn,
+      this.availableIn,
       this.timeOfLeaving});
-  
+
   factory ParkingSpot.fromJson(Map<String, dynamic> json) => ParkingSpot(
       car: json["car"],
       inUse: json["inUse"],
@@ -70,6 +70,22 @@ class ParkingSpot {
       "inUse": false,
       "availableIn": timeOfLeavingEpoch,
       "timeOfLeaving": DateTime.now().microsecondsSinceEpoch,
+    });
+  }
+
+  void createParkingSpot(String size, String address, String userId) {
+    final doc = FirebaseFirestore.instance.collection("ParkingSpots").doc();
+    doc.set({
+      "car": "0",
+      "inUse": true,
+      "lat": positionHandler.location.latitude,
+      "lng": positionHandler.location.longitude,
+      "size": size,
+      "id": doc.id,
+      "address": address,
+      "availableIn": 0,
+      "timeOfLeaving": 0,
+      "userId": userId,
     });
   }
 
