@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:crypt/crypt.dart';
+import 'package:src/parkingSpot.dart';
 import 'package:uuid/uuid.dart';
 import 'package:uuid/uuid_util.dart';
 
@@ -74,5 +75,20 @@ class DataHandler {
     } else {
       throw "Er ging iets verkeerd! Probeer later opnieuw.";
     }
+  }
+
+  List<ParkingSpot> filterParkingSpots(
+      List<ParkingSpot> inList, String filterOn) {
+    // Verwijder elke parkeer spot die niet van een gebruiker is
+    List<ParkingSpot> removedNonUserParkingSpots = List.from(inList);
+    removedNonUserParkingSpots
+        .removeWhere((element) => element.userId != filterOn);
+
+    // Verwijder elke in gebruik parking spot.
+    inList.removeWhere((element) => element.inUse != false);
+
+    debugPrint([...inList, ...removedNonUserParkingSpots].toString());
+    // Merge lists samen
+    return [...inList, ...removedNonUserParkingSpots];
   }
 }
