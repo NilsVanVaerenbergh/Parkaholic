@@ -65,7 +65,7 @@ class _Login extends State<Login> {
                 height: 50,
               ),
               MyButton(
-                button_text: "aanmelden",
+                button_text: "Aanmelden",
                 onTap: () => {
                   hashedPassword = DataHandler()
                       .hashPassword(password: passwordController.text),
@@ -93,10 +93,15 @@ class _Login extends State<Login> {
                   //           const MyHomePage(title: 'Parcaholic')));
                 },
               ),
+              const SizedBox(
+                height: 15,
+              ),
               MyButton(
-                button_text: "registreer een account",
-                onTap: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => RegisterUser())),
+                button_text: "Registreer",
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RegisterUser())),
               )
             ],
           ),
