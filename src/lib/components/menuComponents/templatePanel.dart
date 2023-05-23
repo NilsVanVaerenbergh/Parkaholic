@@ -49,7 +49,7 @@ class _TemplatePanelState extends State<TemplatePanel> {
     super.initState();
     updateCurrentContent();
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (mounted) {
+      if (_currentContent is ReserveSpotStep2 && mounted) {
         setState(() {
           listOfCars =
               CarsHandler().fetchUserCars(widget.userData.id.toString());
