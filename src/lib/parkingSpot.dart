@@ -21,7 +21,7 @@ class ParkingSpot {
   String car;
   String address;
   int? timeOfLeaving;
-  int? availableIn;
+  int availableIn;
   String userId;
 
   ParkingSpot(
@@ -33,7 +33,7 @@ class ParkingSpot {
       required this.car,
       required this.address,
       required this.userId,
-      this.availableIn,
+      required this.availableIn,
       this.timeOfLeaving});
 
   factory ParkingSpot.fromJson(Map<String, dynamic> json) => ParkingSpot(
