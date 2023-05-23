@@ -14,14 +14,12 @@ class CarsHandler {
         FirebaseFirestore.instance.collection("Cars").doc(generatedCarId);
     DocumentReference userReference =
         FirebaseFirestore.instance.collection("Users").doc(userId);
-    DocumentReference colorReference =
-        FirebaseFirestore.instance.collection("Options/Car/Colors/").doc(color);
     Map<String, dynamic> data = {
       "id": generatedCarId,
       "user": userReference,
       "manufacturer": manufacturer,
       "model": model,
-      "color": colorReference
+      "color": color
     };
     carDoc.set(data);
   }

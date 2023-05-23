@@ -11,7 +11,7 @@ class Car {
   DocumentReference user;
   String manufacturer;
   String model;
-  DocumentReference color;
+  String color;
 
   Car({
     required this.id,
