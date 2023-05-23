@@ -143,6 +143,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 MarkerLayer(
                   markers: [Markers().currentUserLocation(positionHandler)],
                 ),
+                FloatingActionButton(onPressed: () {
+                  if (slidePanelController.panelPosition > 0.5) {
+                    slidePanelController.close();
+                  } else {
+                    slidePanelController.open();
+                  }
+                })
               ],
             ),
             // AppIcons().centerPosition(positionHandler),
