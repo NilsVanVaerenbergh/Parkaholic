@@ -25,12 +25,24 @@ class ReserveSpotStep2 extends StatefulWidget {
 class _ReserveSpotStep2State extends State<ReserveSpotStep2> {
   //!!!De init waarde van _dropdownValue moet aanwezig zijn in de lijst met keuzes van de dropdownbutton
   late String _dropdownValue;
-  late List<Car> _carlist;
+  late Future<List<Car>> _carlist;
   @override
-  void initState() {
+  void initState(){
     super.initState();
-  }
 
+    _carlist = CarsHandler().fetchUserCars(widget.userData.id);
+    fetchCars();
+  } 
+
+
+
+  //This sets the initial value of _dropdownValue
+  Future<void> fetchCars() async {
+    List<Car> cars = await CarsHandler().fetchUserCars(widget.userData.id);
+    setState(() {
+      _dropdownValue = cars.isNotEmpty ? cars.first.id.toString() : ''; // Set initial dropdown value
+    });
+  }
   //TODO nullcheck does op lijst van autos. Als null is text weergeven dat men auto moet toevoegen.
   @override
   Widget build(BuildContext context) {
@@ -53,20 +65,21 @@ class _ReserveSpotStep2State extends State<ReserveSpotStep2> {
               height: 10,
             ),
             FutureBuilder<List<Car>>(
-                future: CarsHandler().fetchUserCars(widget.userData.id),
-                builder:
-                    (BuildContext context, AsyncSnapshot<List<Car>> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    _dropdownValue = snapshot.data!.first.id;
-                    return DropdownButton(
-                      value: _dropdownValue,
-                      onChanged: dropdownCallBack,
-                      items: snapshot.data!
-                          .map<DropdownMenuItem<String>>((Car item) {
+              future: _carlist,
+             builder: (BuildContext context, AsyncSnapshot<List<Car>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting){
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError){
+                return Text('Error: ${snapshot.error}');
+              } else {
+                // _dropdownValue = snapshot.data!.first.id;
+                // print("_dropdownvalue init");
+                return DropdownButton(
+                  value: _dropdownValue,
+                  onChanged: dropdownCallBack,
+                  items: snapshot.data!
+                      .map<DropdownMenuItem<String>>((Car item){
+
                         return DropdownMenuItem<String>(
                           value: item.id.toString(),
                           child: Text(
@@ -85,8 +98,10 @@ class _ReserveSpotStep2State extends State<ReserveSpotStep2> {
   void dropdownCallBack(String? selectedValue) {
     if (selectedValue is String) {
       setState(() {
+        _dropdownValue = selectedValue;
         widget.selectedCarId = selectedValue;
-        print(widget.selectedCarId);
+        print(selectedValue);
+        print(_dropdownValue);
         widget.onCarSelected(widget.selectedCarId);
       });
     }
