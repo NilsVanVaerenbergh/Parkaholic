@@ -54,6 +54,8 @@ class _Cars extends State<Cars> {
               MediaQuery.of(context).size.width * 0.2,
               100.0), // <-- Add some padding
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
             children: [
               const SizedBox(
                 height: 50,
@@ -79,18 +81,20 @@ class _Cars extends State<Cars> {
               const SizedBox(
                 height: 50,
               ),
-              ListView.builder(
-                shrinkWrap: true,
+              Expanded(
+                  child: ListView.separated(
+                separatorBuilder: (context, index) {
+                  return const SizedBox(height: 5);
+                },
                 itemCount: carItemList.length,
                 itemBuilder: (context, index) {
                   final item = carItemList[index];
                   return ListTile(
-                    tileColor: const Color.fromARGB(255, 225, 226, 227),
                     title: item.buildTitle(context, widget.userData),
                     subtitle: item.buildSubtitle(context),
                   );
                 },
-              )
+              ))
             ],
           ),
         ),
