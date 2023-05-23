@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:src/car.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -19,24 +17,31 @@ class _ReserveSpotStep3State extends State<ReserveSpotStep3> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text("Confirmation"),
-        const Text("The spot is yours!"),
-        SizedBox(
+        const Text(
+          "Confirmation",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28.0),
+        ),
+        const Text("The spot is yours!",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32.0)),
+        const SizedBox(
           height: 20,
         ),
-        Text("This car used the spot before you."),
+        const Text("This car used the spot before you."),
+        const SizedBox(
+          height: 20,
+        ),
         FutureBuilder<Car?>(
           future: getPreviousCar(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Text("Something went wrong. No car info available");
+              return const Text("Something went wrong. No car info available");
             } else if (snapshot.hasData) {
               final car = snapshot.data;
               return car == null
-                  ? Center(child: Text('No car info'))
+                  ? const Center(child: Text('No car info'))
                   : buildCarInfo(car);
             } else {
-              return Text("Geen informatie over deze auto");
+              return const Text("Geen informatie over deze auto");
             }
           },
         )
@@ -57,17 +62,31 @@ class _ReserveSpotStep3State extends State<ReserveSpotStep3> {
     String svgColor = car != null ? "${car.color}" : "Black";
 
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         SvgPicture.asset(
           "${svgColor}_car.svg",
           semanticsLabel: "Car",
-          width: 100,
-          height: 100,
+          width: 150,
+          height: 150,
         ),
         Column(
           children: [
-            Text("Model: ${car!.manufacturer} ${car.model}"),
-            Text("Color: ${car.color}")
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              const Text(
+                "Model: ",
+                style: TextStyle(fontSize: 16.0),
+              ),
+              Text("${car!.manufacturer} ${car.model}",
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 16.0))
+            ]),
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              const Text("Color: ", style: TextStyle(fontSize: 16.0)),
+              Text(car.color.toString(),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 16.0))
+            ]),
           ],
         )
       ],
