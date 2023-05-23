@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class ReserveSpotStep3 extends StatefulWidget {
   const ReserveSpotStep3({super.key, required this.carId});
-
   final String carId;
 
   @override
