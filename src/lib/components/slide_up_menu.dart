@@ -7,28 +7,27 @@ import 'package:src/components/menuComponents/reserveSpot/reserveSpotStep3.dart'
 import 'package:src/components/menuComponents/templatePanel.dart';
 import 'package:src/parkingSpot.dart';
 
-
 class slide_up_menu extends StatefulWidget {
-  const slide_up_menu({
+  slide_up_menu({
     Key? key,
     required this.controller,
     required this.panelController,
     required this.selectedParkingSpot,
     required this.userData,
-    });
+  });
 
   final QueryDocumentSnapshot userData;
   final ScrollController controller;
   final PanelController panelController;
-  final ParkingSpot? selectedParkingSpot;
+  ParkingSpot? selectedParkingSpot;
   @override
   State<slide_up_menu> createState() => _slide_up_menuState();
 }
 
 class _slide_up_menuState extends State<slide_up_menu> {
   //https://stackoverflow.com/questions/51029655/call-method-in-one-stateful-widget-from-another-stateful-widget-flutter#:~:text=Calling%20a%20method%20of%20child,widget%20to%20update%20its%20children.
-  
- @override
+
+  @override
   Widget build(BuildContext context) => ListView(
         padding: EdgeInsets.zero,
         controller: widget.controller,
@@ -40,7 +39,11 @@ class _slide_up_menuState extends State<slide_up_menu> {
           const SizedBox(
             height: 36,
           ),
-          Center(child: TemplatePanel(selectedParkingSpot: widget.selectedParkingSpot, panelController: widget.panelController,userData: widget.userData,)),
+          Center(
+              child: TemplatePanel(
+                  selectedParkingSpot: widget.selectedParkingSpot,
+                  panelController: widget.panelController,
+                  userData: widget.userData)),
           const SizedBox(
             height: 24,
           )
@@ -60,7 +63,9 @@ class _slide_up_menuState extends State<slide_up_menu> {
           ),
         ),
       );
-  void togglePanel(){
-      widget.panelController.panelPosition.round() == 1 ? widget.panelController.close() : widget.panelController.open();
+  void togglePanel() {
+    widget.panelController.panelPosition.round() == 1
+        ? widget.panelController.close()
+        : widget.panelController.open();
   }
 }

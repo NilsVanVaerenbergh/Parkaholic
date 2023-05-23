@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:src/main.dart';
 
 ParkingSpot parkingSpotFromJson(String str) =>
     ParkingSpot.fromJson(json.decode(str));
@@ -16,8 +17,8 @@ class ParkingSpot {
   bool inUse;
   double lat;
   double lng;
-  int size;
-  String carId;
+  String size;
+  String car;
   String address;
   int? timeOfLeaving;
   int? availableIn;
@@ -29,14 +30,14 @@ class ParkingSpot {
       required this.lat,
       required this.lng,
       required this.size,
-      required this.carId,
+      required this.car,
       required this.address,
       required this.userId,
       this.availableIn,
       this.timeOfLeaving});
 
   factory ParkingSpot.fromJson(Map<String, dynamic> json) => ParkingSpot(
-      carId: json["car"],
+      car: json["car"],
       inUse: json["inUse"],
       lat: json["lat"]?.toDouble(),
       lng: json["lng"]?.toDouble(),
@@ -48,7 +49,7 @@ class ParkingSpot {
       userId: json["userId"]);
 
   Map<String, dynamic> toJson() => {
-        "car": carId,
+        "car": car,
         "inUse": inUse,
         "lat": lat,
         "lng": lng,
@@ -69,6 +70,22 @@ class ParkingSpot {
       "inUse": false,
       "availableIn": timeOfLeavingEpoch,
       "timeOfLeaving": DateTime.now().microsecondsSinceEpoch,
+    });
+  }
+
+  void createParkingSpot(String size, String address, String userId) {
+    final doc = FirebaseFirestore.instance.collection("ParkingSpots").doc();
+    doc.set({
+      "car": "0",
+      "inUse": true,
+      "lat": positionHandler.location.latitude,
+      "lng": positionHandler.location.longitude,
+      "size": size,
+      "id": doc.id,
+      "address": address,
+      "availableIn": 0,
+      "timeOfLeaving": 0,
+      "userId": userId,
     });
   }
 
