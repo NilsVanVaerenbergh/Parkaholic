@@ -54,10 +54,12 @@ class _ReserveSpotStep3State extends State<ReserveSpotStep3> {
   }
 
   Widget buildCarInfo(Car? car) {
+    String svgColor = car != null ? "${car.color}" : "Black";
+
     return Row(
       children: [
         SvgPicture.asset(
-          "car.svg",
+          "${svgColor}_car.svg",
           semanticsLabel: "Car",
           width: 100,
           height: 100,
