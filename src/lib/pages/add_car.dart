@@ -30,6 +30,7 @@ class _AddCar extends State<AddCar> {
               setState(() => {manufacturersList = List<String>.from(list)})
             }
         });
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Voeg een nieuwe auto toe"),
@@ -100,7 +101,7 @@ class _AddCar extends State<AddCar> {
                         CarsHandler().addCarToUser(
                           widget.userData.id,
                           widget.dropDownValue,
-                          carModelController.text.toString(),
+                          carModelController.text,
                           widget.colorDropDownValue.value.toString(),
                         ),
                         Navigator.pop(context),

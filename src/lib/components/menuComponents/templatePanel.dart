@@ -1,13 +1,10 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:src/components/button.dart';
 import 'package:src/components/menuComponents/reserveSpot/reserveSpotStep1.dart';
 import 'package:src/components/menuComponents/reserveSpot/reserveSpotStep2.dart';
+import 'package:src/components/menuComponents/reserveSpot/reserveSpotStep2AddCar.dart';
 import 'package:src/components/menuComponents/reserveSpot/reserveSpotStep3.dart';
 import 'package:src/components/menuComponents/leaveSpot/leaveSpotStep1.dart';
 import 'package:src/components/menuComponents/leaveSpot/leaveSpotStep2.dart';
@@ -73,8 +70,12 @@ class _TemplatePanelState extends State<TemplatePanel> {
               if (_currentContent is ReserveSpotStep1) {
                 listOfCars.then((List<Car> list) {
                   if (list.isEmpty) {
-                    _currentContent = const Text(
-                        "U heeft nog geen auto op dit accout. Klik rechtsboven op het account icon om auto's toe te voegen.");
+                    _currentContent = ReserveSpotStep2AddCar(
+                      userData: widget.userData,
+                      onCarSelected: handleCarSelected,
+                      selectedCarId: selectedCarId,
+                    );
+                    _button_text = "Reserve";
                   } else {
                     _currentContent = ReserveSpotStep2(
                       userData: widget.userData,
@@ -85,7 +86,8 @@ class _TemplatePanelState extends State<TemplatePanel> {
                     _button_text = "Reserve";
                   }
                 });
-              } else if (_currentContent is ReserveSpotStep2) {
+              } else if (_currentContent is ReserveSpotStep2 ||
+                  _currentContent is ReserveSpotStep2AddCar) {
                 previousCarId = widget.selectedParkingSpot!.carId;
                 widget.selectedParkingSpot!
                     .reserveParkingSpot(selectedCarId, widget.userData.id);
@@ -129,7 +131,7 @@ class _TemplatePanelState extends State<TemplatePanel> {
         );
       }
     } else {
-      _currentContent = Text("Klik op een marker");
+      _currentContent = const Text("Klik op een marker");
     }
   }
 }
