@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "419364246861",
-    "project_id": "parkaholic-d1d2f",
-    "storage_bucket": "parkaholic-d1d2f.appspot.com"
+    "project_number": "130710060687",
+    "project_id": "parkaholic2",
+    "storage_bucket": "parkaholic2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:419364246861:android:5e0ec6837800afd43e5304",
+        "mobilesdk_app_id": "1:130710060687:android:687e081fad5981515c3afa",
         "android_client_info": {
           "package_name": "com.example.src"
         }
       },
       "oauth_client": [
         {
-          "client_id": "419364246861-l088btr9gtb2scibb5vvpfq7tm3u2ss7.apps.googleusercontent.com",
+          "client_id": "130710060687-63q3pbvelfjr97bpj0jh51mni92ea6mr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB34OUnKxwa6LgxEqj5s5cH1xobE0TscGU"
+          "current_key": "AIzaSyBBd8Oh2sbZQODIz5i74RWhoTEa9_jbtno"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "419364246861-l088btr9gtb2scibb5vvpfq7tm3u2ss7.apps.googleusercontent.com",
+              "client_id": "130710060687-63q3pbvelfjr97bpj0jh51mni92ea6mr.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

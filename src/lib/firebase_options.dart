@@ -44,42 +44,39 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBIiUYWgwleXHnPffAAz6YV2Fq_7-zC7RY',
-    appId: '1:419364246861:web:1c6c470408d476683e5304',
-    messagingSenderId: '419364246861',
-    projectId: 'parkaholic-d1d2f',
-    authDomain: 'parkaholic-d1d2f.firebaseapp.com',
-    storageBucket: 'parkaholic-d1d2f.appspot.com',
-    measurementId: 'G-LVR0P1DPB4',
+    apiKey: 'AIzaSyClZa7ku54KKGL_JOhwl-9tcZ8QWzI_oAs',
+    appId: '1:130710060687:web:045a469f5428e8075c3afa',
+    messagingSenderId: '130710060687',
+    projectId: 'parkaholic2',
+    authDomain: 'parkaholic2.firebaseapp.com',
+    storageBucket: 'parkaholic2.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB34OUnKxwa6LgxEqj5s5cH1xobE0TscGU',
-    appId: '1:419364246861:android:5e0ec6837800afd43e5304',
-    messagingSenderId: '419364246861',
-    projectId: 'parkaholic-d1d2f',
-    storageBucket: 'parkaholic-d1d2f.appspot.com',
+    apiKey: 'AIzaSyBBd8Oh2sbZQODIz5i74RWhoTEa9_jbtno',
+    appId: '1:130710060687:android:687e081fad5981515c3afa',
+    messagingSenderId: '130710060687',
+    projectId: 'parkaholic2',
+    storageBucket: 'parkaholic2.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDCB_IGwH1KqiEuYL6mTCAsE2BlujcKCqE',
-    appId: '1:419364246861:ios:5a8c5b19513262f73e5304',
-    messagingSenderId: '419364246861',
-    projectId: 'parkaholic-d1d2f',
-    storageBucket: 'parkaholic-d1d2f.appspot.com',
-    iosClientId:
-        '419364246861-7jsrg40qgarhku2hlt0bp6mm6mq9r212.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBrDohhj9buz1a-KJZ2tH5hW7GRgzPJkDc',
+    appId: '1:130710060687:ios:92ea701ece9a71b65c3afa',
+    messagingSenderId: '130710060687',
+    projectId: 'parkaholic2',
+    storageBucket: 'parkaholic2.appspot.com',
+    iosClientId: '130710060687-8ilke0q81dib50atemursdm1slqtn1ds.apps.googleusercontent.com',
     iosBundleId: 'com.example.src',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDCB_IGwH1KqiEuYL6mTCAsE2BlujcKCqE',
-    appId: '1:419364246861:ios:5a8c5b19513262f73e5304',
-    messagingSenderId: '419364246861',
-    projectId: 'parkaholic-d1d2f',
-    storageBucket: 'parkaholic-d1d2f.appspot.com',
-    iosClientId:
-        '419364246861-7jsrg40qgarhku2hlt0bp6mm6mq9r212.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBrDohhj9buz1a-KJZ2tH5hW7GRgzPJkDc',
+    appId: '1:130710060687:ios:92ea701ece9a71b65c3afa',
+    messagingSenderId: '130710060687',
+    projectId: 'parkaholic2',
+    storageBucket: 'parkaholic2.appspot.com',
+    iosClientId: '130710060687-8ilke0q81dib50atemursdm1slqtn1ds.apps.googleusercontent.com',
     iosBundleId: 'com.example.src',
   );
 }
