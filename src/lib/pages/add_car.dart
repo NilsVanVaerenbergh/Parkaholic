@@ -103,7 +103,8 @@ class _AddCar extends State<AddCar> {
                           carModelController.text.toString(),
                           widget.colorDropDownValue.value.toString(),
                         ),
-                        Navigator.push(
+                        Navigator.pop(context),
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => Cars(
