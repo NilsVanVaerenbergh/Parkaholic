@@ -9,6 +9,7 @@ enum CarColor {
   white,
   grey,
   black,
+  green,
 }
 
 extension CarColorHandler on CarColor {
@@ -30,6 +31,8 @@ extension CarColorHandler on CarColor {
         return "Red";
       case CarColor.white:
         return "White";
+      case CarColor.green:
+        return "Green";
       default:
         return "Black";
     }
