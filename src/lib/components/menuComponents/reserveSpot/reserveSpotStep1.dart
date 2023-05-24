@@ -30,16 +30,26 @@ class _ReserveSpotStep1State extends State<ReserveSpotStep1> {
     });
   }
 
-  getTimeOfLeavingString() {
+  String twoDigits(int n) {
+    if (n >= 10) {
+      return "$n";
+    }
+    return "0$n";
+  }
+
+  void getTimeOfLeavingString() {
     int? leavingInMiliseconds = (widget.selectedParkingSpot!.availableIn -
         DateTime.now().microsecondsSinceEpoch);
     if (leavingInMiliseconds > 0) {
       setState(() {
-        leavingString = "${DateTime.fromMicrosecondsSinceEpoch(widget.selectedParkingSpot!.availableIn)}";
+        DateTime selectedTime = DateTime.fromMicrosecondsSinceEpoch(
+            widget.selectedParkingSpot!.availableIn);
+        leavingString =
+            "${twoDigits(selectedTime.day)}/${twoDigits(selectedTime.month)}/${selectedTime.year} ${twoDigits(selectedTime.hour)}:${twoDigits(selectedTime.minute)}";
       });
     } else {
       setState(() {
-        leavingString = "NOW";
+        leavingString = "Now";
       });
     }
   }
@@ -72,11 +82,11 @@ class _ReserveSpotStep1State extends State<ReserveSpotStep1> {
               ),
               Text.rich(TextSpan(
                   text: "Available ",
-                  style: TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20),
                   children: <TextSpan>[
                     TextSpan(
                         text: leavingString,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold))
                   ])),
               const SizedBox(
@@ -84,11 +94,11 @@ class _ReserveSpotStep1State extends State<ReserveSpotStep1> {
               ),
               Text.rich(TextSpan(
                   text: "Parking spot size: ",
-                  style: TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20),
                   children: <TextSpan>[
                     TextSpan(
                         text: determineCarSize(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold))
                   ])),
               const SizedBox(
@@ -100,7 +110,7 @@ class _ReserveSpotStep1State extends State<ReserveSpotStep1> {
                   children: <TextSpan>[
                     TextSpan(
                         text: widget.selectedParkingSpot!.address,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold))
                   ])),
               const SizedBox(
