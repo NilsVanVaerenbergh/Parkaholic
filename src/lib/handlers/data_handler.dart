@@ -29,6 +29,12 @@ class DataHandler {
         "created-at": DateTime.now().millisecondsSinceEpoch
       };
       docUser.set(user);
+      QuerySnapshot userData = await FirebaseFirestore.instance
+          .collection("Users")
+          .where("id", isEqualTo: generatedId)
+          .limit(1)
+          .get();
+      return userData.docs.first;
     } else {
       throw "Deze gebruikersnaam is al in gebruik!";
     }

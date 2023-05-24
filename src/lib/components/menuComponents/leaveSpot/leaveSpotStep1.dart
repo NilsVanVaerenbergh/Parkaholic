@@ -40,7 +40,8 @@ class _LeaveSpotStep1State extends State<LeaveSpotStep1> {
           children: [
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    const Color.fromARGB(255, 221, 221, 221)),
               ),
               child:
                   Text('${dateTime.year}/${dateTime.month}/${dateTime.day}/'),
@@ -56,9 +57,10 @@ class _LeaveSpotStep1State extends State<LeaveSpotStep1> {
             ),
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    const Color.fromARGB(255, 221, 221, 221)),
               ),
-              child: Text('${hours}:${minutes}'),
+              child: Text('$hours:$minutes'),
               onPressed: () async {
                 final time = await pickTime();
                 // setState(() {
@@ -86,14 +88,16 @@ class _LeaveSpotStep1State extends State<LeaveSpotStep1> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Colors.blue, // header background color
-              onPrimary: Colors.black, // header text color
-              onSurface: Colors.blue, // body text color
+            colorScheme: const ColorScheme.light(
+              primary: Colors.black, // header background color
+              onPrimary:
+                  Color.fromARGB(255, 255, 255, 255), // header text color
+              onSurface: Colors.black, // body text color
             ),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
-                foregroundColor: Colors.black, // button text color
+                foregroundColor: const Color.fromARGB(
+                    255, 255, 255, 255), // button text color
               ),
             ),
           ),
@@ -103,7 +107,7 @@ class _LeaveSpotStep1State extends State<LeaveSpotStep1> {
       context: context,
       initialDate: dateTime,
       firstDate: dateTime,
-      lastDate: DateTime.now().add(Duration(days: 7)));
+      lastDate: DateTime.now().add(const Duration(days: 7)));
 
   Future<TimeOfDay?> pickTime() => showTimePicker(
         context: context,
@@ -111,10 +115,11 @@ class _LeaveSpotStep1State extends State<LeaveSpotStep1> {
         builder: (context, child) {
           return Theme(
             data: Theme.of(context).copyWith(
-              colorScheme: ColorScheme.light(
-                primary: Colors.blue, // header background color
-                onPrimary: Colors.black, // header text color
-                onSurface: Colors.blue, // body text color
+              colorScheme: const ColorScheme.light(
+                primary: Colors.black, // header background color
+                onPrimary:
+                    Color.fromARGB(255, 255, 255, 255), // header text color
+                onSurface: Colors.black, // body text color
               ),
               textButtonTheme: TextButtonThemeData(
                 style: TextButton.styleFrom(

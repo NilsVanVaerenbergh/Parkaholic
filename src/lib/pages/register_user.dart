@@ -1,9 +1,11 @@
 // ignore_for_file: invalid_return_type_for_catch_error
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:src/components/button.dart';
 import 'package:src/components/textField.dart';
 import 'package:src/handlers/data_handler.dart';
+import 'package:src/pages/home.dart';
 import 'package:src/pages/login.dart';
 
 class RegisterUser extends StatefulWidget {
@@ -26,7 +28,7 @@ class _RegisterUser extends State<RegisterUser> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Account aanmaken'),
+        title: const Text('Create an account'),
       ),
       body: SafeArea(
         child: Padding(
@@ -41,7 +43,7 @@ class _RegisterUser extends State<RegisterUser> {
                 height: 50,
               ),
               const Text(
-                'Maak hier je account aan!',
+                'Create your account here!',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
@@ -49,7 +51,7 @@ class _RegisterUser extends State<RegisterUser> {
               ),
               MyTextField(
                 controller: usernameController,
-                hintText: 'Gebruikersnaam',
+                hintText: 'Username',
                 obscureText: false,
               ),
               const SizedBox(
@@ -57,7 +59,7 @@ class _RegisterUser extends State<RegisterUser> {
               ),
               MyTextField(
                   controller: passwordController,
-                  hintText: 'Wachtwoord',
+                  hintText: 'Password',
                   obscureText: true),
               Text(
                 errorMessage,
@@ -67,7 +69,7 @@ class _RegisterUser extends State<RegisterUser> {
                 height: 50,
               ),
               MyButton(
-                  button_text: "aanmaken",
+                  button_text: "Create",
                   onTap: () => {
                         hashedPassword = DataHandler()
                             .hashPassword(password: passwordController.text),
@@ -79,7 +81,10 @@ class _RegisterUser extends State<RegisterUser> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Login()))
+                                          builder: (context) => MyHomePage(
+                                                userData: value,
+                                                title: 'Parkaholic',
+                                              )))
                                 })
                             .catchError((error) => setState(
                                 //Error: Invalid argument(s) (onError): The error handler of Future.catchError must return a value of the future's type

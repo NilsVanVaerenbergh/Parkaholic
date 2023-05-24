@@ -33,7 +33,7 @@ class _AddCar extends State<AddCar> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Voeg een nieuwe auto toe"),
+        title: const Text("Add a new car."),
       ),
       body: SafeArea(
         child: Padding(
@@ -56,7 +56,7 @@ class _AddCar extends State<AddCar> {
                 icon: const Icon(Icons.arrow_downward),
                 isExpanded: true,
                 value: widget.dropDownValue,
-                hint: const Text("Kies je merk"),
+                hint: const Text("Choose your manufacturer"),
                 onChanged: (String? value) {
                   // This is called when the user selects an item.
                   setState(() {
@@ -79,7 +79,7 @@ class _AddCar extends State<AddCar> {
                 icon: const Icon(Icons.arrow_downward),
                 isExpanded: true,
                 value: widget.colorDropDownValue.value,
-                hint: const Text("Kies je merk"),
+                hint: const Text("Choose your manufacturer"),
                 onChanged: (Object? value) {
                   // This is called when the user selects an item.
                   setState(() {
@@ -112,7 +112,7 @@ class _AddCar extends State<AddCar> {
                                       userData: widget.userData,
                                     )))
                       },
-                  button_text: "Voeg auto toe")
+                  button_text: "Add car")
             ],
           ),
         ),

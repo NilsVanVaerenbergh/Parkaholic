@@ -18,27 +18,22 @@ class PositionHandler {
   Future<void> checkLocationEnabled() async {
     bool servicestatus = await Geolocator.isLocationServiceEnabled();
     if (servicestatus) {
-      print("GPS service is enabled");
       LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          print('Location permissions are denied');
           locationPermission = false;
         } else if (permission == LocationPermission.deniedForever) {
-          print("Location permissions are permanently denied");
           locationPermission = false;
         } else {
           getCurrentLocation();
           locationPermission = true;
         }
       } else {
-        print("GPS Location permission granted.");
         getCurrentLocation();
         locationPermission = true;
       }
     } else {
-      print("GPS service is disabled.");
       locationPermission = false;
     }
   }
