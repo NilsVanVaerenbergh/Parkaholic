@@ -47,10 +47,19 @@ class _TemplatePanelState extends State<TemplatePanel> {
   late Future<List<Car>> listOfCars;
   late String selectedCarId = "";
   late String previousCarId;
+  DateTime leavingDate = DateTime.now();
 
   void handleCarSelected(String carId) {
     setState(() {
       selectedCarId = carId;
+    });
+  }
+
+  void handleDateSelected(DateTime date) {
+    setState(() {
+      leavingDate = date;
+      print(leavingDate);
+      print(leavingDate.microsecondsSinceEpoch);
     });
   }
 
@@ -124,11 +133,10 @@ class _TemplatePanelState extends State<TemplatePanel> {
                 _currentContent = const Text("Klik op een marker");
                 widget.panelController.close();
               } else if (_currentContent is LeaveSpotStep1) {
-                leavingIn = int.parse(timeInputController.text);
+                leavingIn = leavingDate.microsecondsSinceEpoch;
                 if (widget.selectedParkingSpot != null) {
                   widget.selectedParkingSpot!.leaveParkingSpot(leavingIn);
                 }
-                timeInputController.text = "";
                 _currentContent = LeaveSpotStep2(
                   leavingIn: leavingIn,
                 );
@@ -165,9 +173,10 @@ class _TemplatePanelState extends State<TemplatePanel> {
   void updateCurrentContent() {
     if (widget.selectedParkingSpot != null) {
       if (widget.selectedParkingSpot!.inUse == true) {
-        _button_text = "leave";
+        _button_text = "Leave";
         _currentContent = LeaveSpotStep1(
-          timeInputController: timeInputController,
+          leavingDate: leavingDate,
+          onTimeSelected: handleDateSelected,
         );
       } else {
         _button_text = "Reserve";
@@ -176,7 +185,7 @@ class _TemplatePanelState extends State<TemplatePanel> {
         );
       }
     } else {
-      _button_text = "create";
+      _button_text = "Create";
       _currentContent = AddParkingSpot(
         userData: widget.userData,
         dropDownController: parkingSpotSizeController,
