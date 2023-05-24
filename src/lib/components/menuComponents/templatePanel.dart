@@ -142,6 +142,7 @@ class _TemplatePanelState extends State<TemplatePanel> {
                 _currentContent = const Text("Click on a marker");
                 widget.panelController.close();
               } else if (_currentContent is AddParkingSpot) {
+                widget.panelController.close();
                 final doc =
                     FirebaseFirestore.instance.collection("ParkingSpots").doc();
                 positionHandler.getCurrentLocation();
