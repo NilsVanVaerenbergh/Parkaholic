@@ -165,10 +165,12 @@ class _TemplatePanelState extends State<TemplatePanel> {
   void updateCurrentContent() {
     if (widget.selectedParkingSpot != null) {
       if (widget.selectedParkingSpot!.inUse == true) {
+        _button_text = "leave";
         _currentContent = LeaveSpotStep1(
           timeInputController: timeInputController,
         );
       } else {
+        _button_text = "Reserve";
         _currentContent = ReserveSpotStep1(
           selectedParkingSpot: widget.selectedParkingSpot,
         );
