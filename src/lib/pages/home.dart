@@ -117,8 +117,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   center: location,
                   zoom: 17.0,
                   maxZoom: 17.0,
-                  // enableScrollWheel: false,
-                  // interactiveFlags: InteractiveFlag.none,
+                  enableScrollWheel: false,
+                  interactiveFlags: InteractiveFlag.none,
                   scrollWheelVelocity: 0.005,
                   onPositionChanged: ((position, hasGesture) =>
                       positionHandler.updateMapCenter = false)),
