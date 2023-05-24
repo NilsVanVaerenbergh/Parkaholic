@@ -65,7 +65,7 @@ class _Login extends State<Login> {
                 height: 50,
               ),
               MyButton(
-                button_text: "Aanmelden",
+                button_text: "Sign-in",
                 onTap: () => {
                   hashedPassword = DataHandler()
                       .hashPassword(password: passwordController.text),
@@ -74,7 +74,6 @@ class _Login extends State<Login> {
                           name: usernameController.text,
                           hashedPassword: hashedPassword)
                       .then((userData) => {
-                            debugPrint(userData.toString()),
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -97,7 +96,7 @@ class _Login extends State<Login> {
                 height: 15,
               ),
               MyButton(
-                button_text: "Registreer",
+                button_text: "Sing-up",
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(

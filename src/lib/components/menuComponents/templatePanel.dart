@@ -83,8 +83,6 @@ class _TemplatePanelState extends State<TemplatePanel> {
   @override
   void didUpdateWidget(TemplatePanel oldWidget) {
     super.didUpdateWidget(oldWidget);
-    debugPrint(
-        "parkingsSpot old ${oldWidget.selectedParkingSpot} - new ${widget.selectedParkingSpot}");
     if (widget.selectedParkingSpot != oldWidget.selectedParkingSpot) {
       updateCurrentContent();
     }
@@ -128,9 +126,9 @@ class _TemplatePanelState extends State<TemplatePanel> {
                 _currentContent = ReserveSpotStep3(
                   carId: previousCarId,
                 );
-                _button_text = "Awsome!";
+                _button_text = "Awesome!";
               } else if (_currentContent is ReserveSpotStep3) {
-                _currentContent = const Text("Klik op een marker");
+                _currentContent = const Text("Click on a marker");
                 widget.panelController.close();
               } else if (_currentContent is LeaveSpotStep1) {
                 leavingIn = leavingDate.microsecondsSinceEpoch;
@@ -141,7 +139,7 @@ class _TemplatePanelState extends State<TemplatePanel> {
                   leavingIn: leavingIn,
                 );
               } else if (_currentContent is LeaveSpotStep2) {
-                _currentContent = const Text("Klik op een marker");
+                _currentContent = const Text("Click on a marker");
                 widget.panelController.close();
               } else if (_currentContent is AddParkingSpot) {
                 final doc =

@@ -105,7 +105,7 @@ class _ReserveSpotStep1State extends State<ReserveSpotStep1> {
                 height: 20,
               ),
               Text.rich(TextSpan(
-                  text: "address: ",
+                  text: "Address: ",
                   style: TextStyle(fontSize: 20),
                   children: <TextSpan>[
                     TextSpan(

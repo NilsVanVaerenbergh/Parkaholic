@@ -22,7 +22,6 @@ class _Cars extends State<Cars> {
   List<CarItem> carItemList = [];
 
   void createInitState() {
-    debugPrint("ran void createInitState()");
     CarsHandler().fetchUserCars(widget.userData.id).then((value) => {
           setState(() => carList = value),
           if (carItemList.length < value.length)
@@ -44,7 +43,7 @@ class _Cars extends State<Cars> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text("Auto's van ${widget.userData['name']}"),
+        title: Text("Cars of ${widget.userData['name']}"),
       ),
       body: SafeArea(
         child: Padding(
@@ -61,11 +60,11 @@ class _Cars extends State<Cars> {
                 height: 50,
               ),
               Text(
-                'Welkom ${widget.userData["name"]}',
+                'Welcome ${widget.userData["name"]}',
                 style: const TextStyle(fontSize: 20),
               ),
               MyButton(
-                  button_text: "Voeg toe.",
+                  button_text: "Add car",
                   onTap: () => {
                         Navigator.push(
                             context,
